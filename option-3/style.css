@@ -189,7 +189,7 @@ figure {
   display: flex;
   align-items: center;
   height: var(--header-h);
-  padding-inline: 24px;
+  padding: 0 0 0 24px; /* no right padding: the CTA cell (toggle at <=960) runs to the screen edge */
   background-color: transparent;
   color: var(--paper);
   opacity: var(--copy);
