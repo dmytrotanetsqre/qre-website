@@ -1296,8 +1296,9 @@ html.is-reduced .button::before {
   align-items: center;
   gap: var(--space-xs);
   min-height: 80px;
-  /* The line runs the full width of the panel (2026-10-26). */
-  padding: var(--space-sm) var(--drawer-pad);
+  /* The line runs the full width of the panel (2026-10-26). Sides 24 px
+     (16 px ≤768), tighter than the log's --drawer-pad, as in the site header. */
+  padding: var(--space-sm) 24px;
   border-bottom: 1px solid var(--hairline);
 }
 
@@ -1588,7 +1589,7 @@ html.is-reduced .chat__send::before {
 
   .chat__header {
     min-height: 64px;
-    padding-block: 8px;
+    padding: 8px 16px;
   }
 
   .chat__composer {
