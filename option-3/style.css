@@ -897,6 +897,7 @@ html.is-reduced .button::before {
   padding: 0;
   border-top: 1px solid var(--hairline);
   list-style: none;
+  counter-reset: service-point;
 }
 
 .service__list li {
@@ -910,15 +911,20 @@ html.is-reduced .button::before {
   letter-spacing: var(--tracking-body);
 }
 
-/* The arrow, in the text colour (a mask, so it follows the tone). */
+/* The point's number, 01, 02… (2026-10-26, was the pixel arrow): muted grey,
+   counted per service, tabular so every number takes the same width. */
+.service__list li {
+  counter-increment: service-point;
+}
+
 .service__list li::before {
-  content: '';
+  content: counter(service-point, decimal-leading-zero);
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  background-color: currentColor;
-  -webkit-mask: url('../assets/icons/arrow-right.svg') no-repeat center / 18px 18px;
-          mask: url('../assets/icons/arrow-right.svg') no-repeat center / 18px 18px;
+  min-width: 18px;
+  color: var(--on-surface-muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.6;
 }
 
 @media (max-width: 1023px) {
