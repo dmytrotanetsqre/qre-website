@@ -1466,11 +1466,13 @@ html.is-reduced .button::before {
   margin-top: calc(-1 * var(--space-sm) + var(--space-xs));
 }
 
+/* Chips stay pills (2026-10-26), smaller than the page's square buttons. */
 .button.chat__chip {
-  height: 36px;
-  padding-inline: 14px;
-  font-size: 14px;
-  line-height: 20px;
+  height: 32px;
+  padding-inline: 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  line-height: 18px;
   white-space: normal;
   text-align: left;
 }
@@ -1479,16 +1481,16 @@ html.is-reduced .button::before {
   flex: none;
   margin-inline: var(--drawer-pad);
   padding: var(--space-sm) 0 var(--space-md);
-  border-top: 1px solid var(--hairline);
 }
 
+/* The input is one line (2026-10-26): no box, only a hairline under it,
+   brighter while typing. */
 .chat__field {
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  padding: 6px 6px 6px 18px;
-  border: 1px solid var(--hairline);
-  border-radius: 24px;
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--hairline);
   transition: border-color 0.2s var(--ease-out);
 }
 
@@ -1535,24 +1537,6 @@ html.is-reduced .button::before {
   cursor: default;
 }
 
-.chat__consent {
-  margin-top: 10px;
-  color: var(--on-surface-muted);
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.chat__consent a {
-  color: var(--on-surface);
-  text-decoration: underline;
-  text-underline-position: from-font;
-  cursor: pointer;
-  transition: opacity 0.2s var(--ease-out);
-}
-
-.chat__consent a:hover {
-  opacity: 0.6;
-}
 
 @media (max-width: 768px) {
   .drawer {
