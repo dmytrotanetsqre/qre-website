@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<!-- Tuning page for option-3/blob.js (the Contact orb). Not linked from the site.
+     tools/render-blob.mjs opens it to render assets/contact-blob.mp4 frame by frame
+     (window.blobLab). ?params={json} sets the starting parameters. -->
+<html lang="en" data-tone="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Blob lab · QRE</title>
+  <link rel="icon" href="../assets/icons/qre-logo.svg">
+  <link rel="preload" href="../assets/fonts/inter-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="vendor/three.module.js">
+  <link rel="modulepreload" href="blob.js">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <style>
+    .lab {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-md);
+      padding: var(--space-md) var(--gutter) var(--space-3xl);
+      color: var(--paper);
+    }
+
+    .lab__view {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      min-width: 0;
+    }
+
+    .lab__label {
+      margin: 0;
+      font-size: 14px;
+      color: var(--on-surface-muted);
+    }
+
+    .lab__orb {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 640 / 484;
+      border-radius: 8px;
+    }
+
+    /* The ASCII host: the same background token and glyph settings as Contact. */
+    .lab__ascii {
+      position: relative;
+      aspect-ratio: 640 / 484;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid var(--line-inverse);
+      background-color: var(--hero-bg);
+    }
+
+    .lab__ascii canvas {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .lab__controls {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--space-sm) var(--space-lg);
+      padding-top: var(--space-sm);
+    }
+
+    .lab__slider {
+      display: grid;
+      grid-template-columns: 7.5em minmax(0, 1fr) 5ch;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+    }
+
+    .lab__slider input[type='range'] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 2px;
+      margin: 0;
+      border-radius: 999px;
+      background: var(--hairline);
+      cursor: pointer;
+    }
+
+    .lab__slider input[type='range']::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--paper);
+      cursor: pointer;
+    }
+
+    .lab__slider input[type='range']::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--paper);
+      cursor: pointer;
+    }
+
+    .lab__slider output {
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface-muted);
+      text-align: right;
+    }
+
+    .lab__actions {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lab__actions .button {
+      height: 44px;
+      padding-inline: 18px;
+      font-size: 14px;
+    }
+
+    .lab__actions label {
+      max-width: 100%;
+    }
+
+    .lab__actions select {
+      max-width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      background: var(--hero-bg);
+      color: var(--paper);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    .lab__json {
+      grid-column: 1 / -1;
+      margin: 0;
+      min-height: 3em;
+      padding: var(--space-sm);
+      border-radius: 8px;
+      border: 1px solid var(--line-inverse);
+      color: var(--on-surface-muted);
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    @media (max-width: 860px) {
+      .lab {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 class="visually-hidden">Blob lab</h1>
+  <main class="lab">
+    <div class="lab__view">
+      <p class="lab__label">Orb, as rendered into contact-blob.mp4 (640 × 484)</p>
+      <canvas class="lab__orb" id="orb" width="640" height="484"></canvas>
+    </div>
+    <div class="lab__view">
+      <p class="lab__label">Through asciiArt, as in Contact</p>
+      <div class="lab__ascii" id="ascii"><canvas aria-hidden="true"></canvas></div>
+    </div>
+    <div class="lab__controls" id="controls"></div>
+    <div class="lab__actions">
+      <button class="button button--outline" type="button" id="play">Pause</button>
+      <button class="button button--primary" type="button" id="copy">Copy params</button>
+      <button class="button button--outline" type="button" id="reset">Reset</button>
+      <label>
+        <span class="visually-hidden">ASCII tone</span>
+        <select id="tone">
+          <option value="contact">Tone as in Contact (dim, lights up under the cursor)</option>
+          <option value="bright">Full brightness</option>
+        </select>
+      </label>
+    </div>
+    <pre class="lab__json" id="json" aria-live="polite"></pre>
+  </main>
+  <script type="module">
+    import { createBlob, DEFAULTS } from './blob.js';
+
+    const SLIDERS = [
+      ['amount', 'Noise amount', 0, 0.3, 0.005],
+      ['scale', 'Noise scale', 0.3, 4, 0.05],
+      ['speed', 'Speed', 0, 2, 0.01],
+      ['rim', 'Rim', 0, 2, 0.01],
+      ['glow', 'Glow', 0, 3, 0.01],
+      ['size', 'Size', 0.2, 1, 0.01],
+      ['breath', 'Breath', 0, 0.1, 0.002],
+    ];
+    // Contact's asciiArt settings (site.js 6b), so the right view matches the page.
+    const CONTACT_TONE = { brightness: 0.62 * 0.6, restDim: 0.45 };
+    const BRIGHT_TONE = { brightness: 0.62, restDim: 0 };
+
+    let start = {};
+    const query = new URLSearchParams(location.search).get('params');
+    if (query) {
+      try {
+        start = JSON.parse(query);
+      } catch {
+        console.warn('[blob lab] ?params is not JSON; using the defaults.');
+      }
+    }
+
+    const orbCanvas = document.querySelector('#orb');
+    const blob = createBlob(orbCanvas, start);
+    const controls = document.querySelector('#controls');
+    const json = document.querySelector('#json');
+    const inputs = {};
+
+    for (const [key, label, min, max, step] of SLIDERS) {
+      const row = document.createElement('label');
+      row.className = 'lab__slider';
+      row.innerHTML = `<span>${label}</span><input type="range" min="${min}" max="${max}" step="${step}"><output></output>`;
+      const input = row.querySelector('input');
+      const output = row.querySelector('output');
+      input.value = String(blob.params[key]);
+      output.textContent = Number(input.value).toFixed(3).replace(/\.?0+$/, '') || '0';
+      input.addEventListener('input', () => {
+        output.textContent = Number(input.value).toFixed(3).replace(/\.?0+$/, '') || '0';
+        blob.set({ [key]: Number(input.value) });
+      });
+      inputs[key] = { input, output };
+      controls.append(row);
+    }
+
+    // The ASCII view samples the orb canvas after every orb frame.
+    let art = null;
+    const asciiHost = document.querySelector('#ascii');
+    function mountArt() {
+      if (art || typeof asciiArt !== 'function') return;
+      art = asciiArt(asciiHost, {
+        mediaElement: orbCanvas,
+        mediaSource: 'blob.js canvas',
+        mediaType: 'image',
+        imageZoom: 0,
+        playIntro: false,
+        fit: 'contain',
+        mediaScale: 1,
+        focalPoint: { x: 0.5, y: 0.5 },
+        narrow: null,
+        quiet: true,
+        brightness: CONTACT_TONE.brightness,
+        restDim: CONTACT_TONE.restDim,
+      });
+    }
+    blob.onFrame = () => {
+      if (art) art.redraw();
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', mountArt, { once: true });
+    } else {
+      mountArt();
+    }
+
+    document.querySelector('#tone').addEventListener('change', (event) => {
+      if (!art) return;
+      const tone = event.target.value === 'bright' ? BRIGHT_TONE : CONTACT_TONE;
+      art.setScene({ brightness: tone.brightness });
+      art.setRestDim(tone.restDim);
+    });
+
+    const play = document.querySelector('#play');
+    play.addEventListener('click', () => {
+      if (blob.running) {
+        blob.stop();
+        play.textContent = 'Play';
+      } else {
+        blob.start();
+        play.textContent = 'Pause';
+      }
+    });
+
+    document.querySelector('#copy').addEventListener('click', async () => {
+      const text = JSON.stringify(blob.params, null, 2);
+      json.textContent = text;
+      console.log(text);
+      try {
+        await navigator.clipboard.writeText(text);
+        json.textContent = text + '\n\nCopied to the clipboard.';
+      } catch {
+        // No clipboard access (http, or permission): the JSON above is still there to copy.
+      }
+    });
+
+    document.querySelector('#reset').addEventListener('click', () => {
+      blob.set(DEFAULTS);
+      for (const [key] of SLIDERS) {
+        inputs[key].input.value = String(DEFAULTS[key]);
+        inputs[key].input.dispatchEvent(new Event('input'));
+      }
+    });
+
+    // Reduced motion: the orb holds its first frame until Play is pressed.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      play.textContent = 'Play';
+    } else {
+      blob.start();
+    }
+    // For tools/render-blob.mjs: deterministic frames without the clock.
+    window.blobLab = { blob, DEFAULTS, get art() { return art; } };
+  </script>
+</body>
+</html>

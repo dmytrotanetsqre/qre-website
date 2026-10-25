@@ -505,61 +505,18 @@ const scrubCases = [];
   still.addEventListener('change', () => aimWork(null, null));
 
   /* ------------------------------------------------------------------------
-     6. Consultation forms (drawer + contact section) and drawer chrome
+     6. Drawer chrome. The consultation drawer holds the scripted chat
+        (chat.js); opening it fires `drawer:open` so the chat can take focus.
      ------------------------------------------------------------------------ */
-  function wireConsultationForm(form, done, { emailErrorId = 'consult-email-error' } = {}) {
-    const email = form.elements.email;
-    const consent = form.elements.consent;
-
-    function setEmailError(message) {
-      const field = email.closest('.field');
-      field.querySelector('.field__error')?.remove();
-      email.removeAttribute('aria-invalid');
-      email.removeAttribute('aria-describedby');
-      if (!message) return;
-      email.setAttribute('aria-invalid', 'true');
-      const error = document.createElement('p');
-      error.className = 'field__error';
-      error.id = emailErrorId;
-      error.textContent = message;
-      email.setAttribute('aria-describedby', error.id);
-      field.append(error);
-    }
-
-    email.addEventListener('input', () => { if (email.hasAttribute('aria-invalid') && email.validity.valid) setEmailError(''); });
-    consent.addEventListener('change', () => consent.closest('.consent').classList.remove('is-invalid'));
-
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      setEmailError(email.validity.valid ? '' : 'Enter an e-mail we can reply to.');
-      const label = consent.closest('.consent');
-      label.classList.remove('is-invalid');
-      if (!consent.checked) {
-        void label.offsetWidth;
-        label.classList.add('is-invalid');
-      }
-      if (!email.validity.valid) return email.focus();
-      if (!consent.checked) return consent.focus();
-
-      form.reset();
-      form.hidden = true;
-      done.hidden = false;
-      done.querySelector('button, [href], input, textarea, select')?.focus();
-    });
-  }
-
   document.querySelectorAll('dialog.drawer').forEach((drawer) => {
     const panel = drawer.querySelector('.drawer__panel');
-    const form = drawer.querySelector('.drawer__form');
-    const done = drawer.querySelector('.drawer__done');
     let closing = 0;
 
     function open() {
       clearTimeout(closing);
-      form.hidden = false;
-      done.hidden = true;
       document.documentElement.classList.add('has-drawer');
       if (!drawer.open) drawer.showModal();
+      drawer.dispatchEvent(new CustomEvent('drawer:open'));
       requestAnimationFrame(() => requestAnimationFrame(() => drawer.classList.add('is-open')));
     }
 
@@ -583,25 +540,21 @@ const scrubCases = [];
     drawer.querySelectorAll('[data-drawer-close]').forEach((button) => button.addEventListener('click', close));
     drawer.addEventListener('cancel', (event) => { event.preventDefault(); close(); });
     drawer.addEventListener('click', (event) => { if (event.target === drawer) close(); });
-
-    wireConsultationForm(form, done, { emailErrorId: 'consult-email-error' });
   });
 
+  /* ------------------------------------------------------------------------
+     6b. Contact: links to #contact smooth-scroll to the section, then focus its
+        button without scrolling again. The ASCII art behind the statement is
+        asciiArt (script.js) with the v1 contact settings: hover deform on, no
+        intro, mounted once the section is within a viewport, and idle while it
+        is off-screen. Reduced motion: one still frame (asciiArt holds the video).
+        The source is assets/contact-blob.mp4 (replaceable by any looping video).
+     ------------------------------------------------------------------------ */
   const ctaSection = document.querySelector('.cta');
-  const ctaForm = ctaSection?.querySelector('.cta__form');
-  const ctaDone = ctaSection?.querySelector('.cta__done');
-  if (ctaForm && ctaDone) {
-    wireConsultationForm(ctaForm, ctaDone, { emailErrorId: 'cta-email-error' });
-    ctaDone.querySelector('[data-contact-reset]')?.addEventListener('click', () => {
-      ctaForm.hidden = false;
-      ctaDone.hidden = true;
-      ctaForm.elements.email?.focus();
-    });
-  }
+  const ctaButton = ctaSection?.querySelector('.cta__button');
 
-  function focusCtaEmail() {
-    const email = ctaForm?.elements.email;
-    if (email && typeof email.focus === 'function') email.focus({ preventScroll: true });
+  function focusCtaButton() {
+    if (ctaButton) ctaButton.focus({ preventScroll: true });
   }
 
   document.querySelectorAll('a[href="#contact"]').forEach((link) => {
@@ -610,13 +563,45 @@ const scrubCases = [];
       const section = document.getElementById('contact');
       if (!section) return;
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.addEventListener('scrollend', focusCtaEmail, { once: true });
-      setTimeout(focusCtaEmail, 800);
+      window.addEventListener('scrollend', focusCtaButton, { once: true });
+      setTimeout(focusCtaButton, 800);
     });
   });
 
   if (location.hash === '#contact') {
-    requestAnimationFrame(() => focusCtaEmail());
+    requestAnimationFrame(() => focusCtaButton());
+  }
+
+  const ctaCanvas = ctaSection?.querySelector('.cta__art');
+  if (ctaSection && ctaCanvas && typeof asciiArt === 'function') {
+    let ctaArt = null;
+    let ctaInView = false;
+
+    function mountCtaArt() {
+      if (ctaArt) return;
+      ctaArt = asciiArt(ctaSection, {
+        mediaSource: '../assets/contact-blob.mp4',
+        brightness: 0.62 * 0.6,
+        playIntro: false,
+        mediaScale: 1.4,
+        focalPoint: { x: 0.5, y: 0.5 },
+        narrow: { query: '(max-width: 768px)', mediaScale: 2, focalPoint: { x: 0.5, y: 0.5 } },
+        quiet: true,
+        draw: ctaInView,
+      });
+    }
+
+    // Mount within one viewport of the section; draw only while it is on screen.
+    const ctaMountObserver = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      mountCtaArt();
+      ctaMountObserver.disconnect();
+    }, { rootMargin: '100% 0px' });
+    ctaMountObserver.observe(ctaSection);
+    new IntersectionObserver(([entry]) => {
+      ctaInView = !!(entry && entry.isIntersecting);
+      if (ctaArt) ctaArt.setDrawing(ctaInView);
+    }).observe(ctaSection);
   }
 
   /* ------------------------------------------------------------------------
