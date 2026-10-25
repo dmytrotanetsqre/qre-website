@@ -1301,7 +1301,7 @@ html.is-reduced .button::before {
   border-bottom: 1px solid var(--hairline);
 }
 
-/* The QRE mark: the logo file cropped to its Q. */
+/* The assistant's avatar: the AI sparkles (2026-10-26, was the logo's Q). */
 .chat__avatar {
   flex: none;
   display: grid;
@@ -1312,11 +1312,12 @@ html.is-reduced .button::before {
   border-radius: 50%;
 }
 
-.chat__avatar img {
-  width: 16px;
-  height: 16px;
-  object-fit: cover;
-  object-position: left center;
+.chat__avatar-icon {
+  width: 18px;
+  height: 18px;
+  background-color: var(--on-surface);
+  -webkit-mask: url('../assets/icons/sparkles.svg') no-repeat center / 18px 18px;
+          mask: url('../assets/icons/sparkles.svg') no-repeat center / 18px 18px;
 }
 
 .chat__name {
