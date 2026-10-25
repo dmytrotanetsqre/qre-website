@@ -10,7 +10,7 @@
 | P1 | Contact обратно к макету v1 | готово |
 | P2 | Видео блоба | готово |
 | P3 | Блоб в Contact | готово |
-| P4 | Чат-drawer | не начат |
+| P4 | Чат-drawer | готово |
 | P5 | QA | не начат |
 
 ## Допущения
@@ -29,6 +29,12 @@
 ## Журнал
 
 Новые записи сверху.
+
+### 2026-10-25, P4
+- Форма в `dialog#consultation` заменена сценарным чатом без бэкенда: `option-3/chat.js` (логика), `option-3/chat-script.js` (весь текст как данные), разметка в `index.html`, стили `.chat*` в `style.css`; `site.js` 6 оставляет drawer и шлёт `drawer:open`.
+- Удалены форма, блок «спасибо», `wireConsultationForm`, CSS `.field*`, `.consent*`, `.drawer__form/fields/done/body/team/title/lead/footer/submit`.
+- Playwright: 50 проверок прошли (чипы до конца, полностью текстом, плохой и хороший e-mail, FAQ посреди, закрыть/открыть, Start over, Esc, фон, reduced motion, 390×844, клавиатура); консоль чистая, сетевых запросов нет. Скриншоты: `docs/screens/p4/`.
+- Открыто: клавиатура телефона поверх поля ввода и озвучка скринридером не проверены; решения по FAQ, аватару, плейсхолдеру записаны в `docs/open-questions.md`.
 
 ### 2026-10-25, P3
 - Contact теперь рисует блоб: `option-3/site.js`, 6b, источник `../assets/contact-blob.mp4` (вместо заглушки gem).

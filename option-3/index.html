@@ -25,6 +25,8 @@
   </script>
   <script src="script.js" defer></script>
   <script src="site.js" defer></script>
+  <script src="chat-script.js" defer></script>
+  <script src="chat.js" defer></script>
   <!-- 0/1 rain parked, see cta-rain.js (was <script type="module" src="cta-rain.js"></script>) -->
   <!-- 3D Q parked, see cta-q.js
   <script type="module" src="cta-q.js"></script>
@@ -324,55 +326,31 @@
     </section>
   </main>
 
-  <!-- Consultation drawer (site.js 8): slides in from the right; full screen on
-       phones. Always dark, whatever the page tone. The form has no backend yet:
-       submitting shows the thank-you state. -->
-  <dialog class="drawer" id="consultation" aria-labelledby="drawer-title">
-    <div class="drawer__panel">
-      <button class="drawer__close" type="button" data-drawer-close aria-label="Close">
-        <svg viewBox="0 0 18 18" width="18" height="18" aria-hidden="true"><path d="M2 18H0V16H2V18ZM18 16V18H16V16H18ZM4 16H2V14H4V16ZM16 14V16H14V14H16ZM6 14H4V12H6V14ZM14 12V14H12V12H14ZM8 12H6V10H8V12ZM12 10V12H10V10H12ZM10 8V10H8V8H10ZM8 8H6V6H8V8ZM12 6V8H10V6H12ZM6 6H4V4H6V6ZM14 4V6H12V4H14ZM4 4H2V2H4V4ZM16 2V4H14V2H16ZM2 2H0V0H2V2ZM18 0V2H16V0H18Z" fill="currentColor"/></svg>
-      </button>
+  <!-- Consultation drawer (site.js 6): slides in from the right; full screen on
+       phones. Always dark, whatever the page tone. Holds the scripted chat
+       (chat.js runs it, chat-script.js holds its copy); no backend. -->
+  <dialog class="drawer" id="consultation" aria-labelledby="chat-title">
+    <div class="drawer__panel chat" data-chat>
+      <header class="chat__header">
+        <span class="chat__avatar" aria-hidden="true"><img src="../assets/icons/qre-logo.svg" alt="" width="53" height="16"></span>
+        <h2 class="chat__name" id="chat-title">QRE assistant <span class="chat__badge">AI</span></h2>
+        <button class="chat__restart" type="button" data-chat-restart hidden>Start over</button>
+        <button class="drawer__close" type="button" data-drawer-close aria-label="Close">
+          <svg viewBox="0 0 18 18" width="18" height="18" aria-hidden="true"><path d="M2 18H0V16H2V18ZM18 16V18H16V16H18ZM4 16H2V14H4V16ZM16 14V16H14V14H16ZM6 14H4V12H6V14ZM14 12V14H12V12H14ZM8 12H6V10H8V12ZM12 10V12H10V10H12ZM10 8V10H8V8H10ZM8 8H6V6H8V8ZM12 6V8H10V6H12ZM6 6H4V4H6V6ZM14 4V6H12V4H14ZM4 4H2V2H4V4ZM16 2V4H14V2H16ZM2 2H0V0H2V2ZM18 0V2H16V0H18Z" fill="currentColor"/></svg>
+        </button>
+      </header>
 
-      <form class="drawer__form" novalidate>
-        <div class="drawer__body">
-          <div class="drawer__team" aria-hidden="true">
-            <img src="../assets/team/team-1.jpg" alt="" width="48" height="48">
-            <img src="../assets/team/team-2.jpg" alt="" width="48" height="48">
-            <img src="../assets/team/team-3.jpg" alt="" width="48" height="48">
-          </div>
-          <h2 class="drawer__title" id="drawer-title">Get a free consultation</h2>
-          <p class="drawer__lead">We will set up a meeting in 24 hours.</p>
+      <div class="chat__log" role="log" aria-live="polite" aria-label="Conversation" tabindex="-1"></div>
 
-          <div class="drawer__fields">
-            <div class="field">
-              <input class="field__input" id="consult-email" name="email" type="email" autocomplete="email" placeholder=" " required>
-              <label class="field__label" for="consult-email">E-mail</label>
-            </div>
-            <div class="field">
-              <input class="field__input" id="consult-company" name="company" type="text" autocomplete="organization" placeholder=" ">
-              <label class="field__label" for="consult-company">Company Name</label>
-            </div>
-            <div class="field">
-              <textarea class="field__input field__input--area" id="consult-message" name="message" rows="4" placeholder=" "></textarea>
-              <label class="field__label" for="consult-message">Want to add anything else?</label>
-            </div>
-          </div>
-
-          <div class="drawer__footer">
-            <label class="consent">
-              <input class="consent__box" type="checkbox" name="consent" required>
-              <span class="consent__text">By checking this box, I acknowledge that I have familiarized with and agree to be bound by the <a>Terms of Service</a> and I accept the <a>Privacy Policy</a></span>
-            </label>
-            <button class="button button--primary drawer__submit" type="submit">Send request</button>
-          </div>
+      <form class="chat__composer" novalidate>
+        <div class="chat__field">
+          <textarea class="chat__input" id="chat-input" name="message" rows="1" aria-label="Message" autocomplete="off"></textarea>
+          <button class="chat__send" type="submit" aria-label="Send" disabled>
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 14V2M3 7l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
+        <p class="chat__consent">By chatting you agree to our <a>Terms of Service</a> and <a>Privacy Policy</a>.</p>
       </form>
-
-      <div class="drawer__done" hidden>
-        <h2 class="drawer__title">Thank you</h2>
-        <p class="drawer__lead">We’ll be in touch within 24 hours to set up the meeting.</p>
-        <button class="button button--outline" type="button" data-drawer-close>Close</button>
-      </div>
     </div>
   </dialog>
 

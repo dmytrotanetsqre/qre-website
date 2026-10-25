@@ -1089,9 +1089,9 @@ html.is-reduced .site-header {
 }
 
 /* --------------------------------------------------------------------------
-   Consultation drawer (site.js 8). A <dialog>: showModal() traps focus and
+   Consultation drawer (site.js 6). A <dialog>: showModal() traps focus and
    makes the page inert; the panel slides in from the right edge (full width
-   at 768 px and below) and scrolls as one piece if the screen is short.
+   at 768 px and below). It holds the chat; only the message log scrolls.
    Always dark, whatever the page tone.
    -------------------------------------------------------------------------- */
 .drawer {
@@ -1157,16 +1157,14 @@ html.is-reduced .site-header {
   transform: none;
 }
 
-/* Centred on the photos' row, its icon's right edge on the content's. */
 .drawer__close {
-  position: absolute;
-  top: calc(var(--drawer-pad) - 8px);
-  right: calc(var(--drawer-pad) - 15px);
-  z-index: 1;
+  flex: none;
   display: grid;
   place-items: center;
   width: 48px;
   height: 48px;
+  /* The icon's right edge on the content's. */
+  margin-right: -15px;
   padding: 0;
   border: 0;
   background: none;
@@ -1179,229 +1177,281 @@ html.is-reduced .site-header {
   color: var(--on-surface);
 }
 
-.drawer__body {
-  padding: calc(var(--drawer-pad) - 8px) var(--drawer-pad) var(--drawer-pad);
-}
-
-.drawer__team {
+/* --------------------------------------------------------------------------
+   Chat (chat.js, copy in chat-script.js). The panel is a column: header,
+   the message log (the only part that scrolls), the input row.
+   -------------------------------------------------------------------------- */
+.chat {
   display: flex;
-  margin-bottom: 32px;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font);
+  font-variation-settings: 'opsz' var(--opsz-text);
+  letter-spacing: var(--tracking-body);
 }
 
-.drawer__team img {
-  width: 48px;
-  height: 48px;
-  border: 2px solid var(--surface);
+.chat__header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 80px;
+  /* The lines stop at the content's edges: a desktop scrollbar gutter kept
+     on the page paints over the panel's last 15 px. */
+  margin-inline: var(--drawer-pad);
+  padding-block: var(--space-sm);
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* The QRE mark: the logo file cropped to its Q. */
+.chat__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--hairline);
   border-radius: 50%;
+}
+
+.chat__avatar img {
+  width: 16px;
+  height: 16px;
   object-fit: cover;
+  object-position: left center;
 }
 
-.drawer__team img + img {
-  margin-left: -12px;
-}
-
-.drawer__title {
-  font-variation-settings: 'opsz' var(--opsz-display);
-  font-size: clamp(30px, 2.5vw, 36px);  /* 36 px at 1440 */
+.chat__name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  line-height: 1.5;
+  letter-spacing: var(--tracking-subhead);
 }
 
-.drawer__lead {
-  margin-top: 12px;
+.chat__badge {
+  padding: 0 7px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
   color: var(--on-surface-muted);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0;
+}
+
+.chat__restart {
+  padding: 8px 4px;
+  border: 0;
+  background: none;
+  color: var(--on-surface-muted);
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: var(--tracking-body);
+  cursor: pointer;
+  transition: color 0.2s var(--ease-out);
+}
+
+.chat__restart:hover {
+  color: var(--on-surface);
+}
+
+.chat__restart[hidden] {
+  display: none;
+}
+
+.chat__log {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-height: 0;
+  padding: var(--space-md) var(--drawer-pad);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  outline: none;
+}
+
+.chat__msg {
+  max-width: 88%;
   font-size: 16px;
   line-height: 1.5;
 }
 
-.drawer__fields {
+.chat__msg p + p,
+.chat__msg p + dl,
+.chat__msg dl + p {
+  margin-top: var(--space-xs);
+}
+
+.chat__msg--assistant {
+  align-self: flex-start;
+}
+
+.chat__msg--user {
+  align-self: flex-end;
+  max-width: 80%;
+  padding: 10px var(--space-sm);
+  border-radius: 20px 20px 6px 20px;
+  background-color: var(--hairline);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.chat__word,
+.chat__summary > div {
+  transition: opacity 0.25s var(--ease-out);
+}
+
+.chat__word.is-pending,
+.chat__summary > div.is-pending {
+  opacity: 0;
+}
+
+.chat__summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px var(--space-sm);
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  font-size: 14px;
+}
+
+.chat__summary > div {
+  display: contents;
+}
+
+.chat__summary dt {
+  color: var(--on-surface-muted);
+}
+
+.chat__summary dd {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.chat__typing {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 24px;
+  gap: 5px;
+  padding: 10px 0;
 }
 
-/* An underlined field; the label sits in it as its placeholder and moves
-   up out of the way on focus or once the field has a value. */
-.field {
-  position: relative;
-  padding-top: 16px;
+.chat__typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--on-surface-muted);
+  animation: chat-dot 1.2s var(--ease-in-out) infinite;
 }
 
-.field__input {
-  display: block;
-  width: 100%;
-  padding: 8px 0 12px;
+.chat__typing span:nth-child(2) { animation-delay: 0.15s; }
+.chat__typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes chat-dot {
+  0%, 60%, 100% { opacity: 0.3; transform: none; }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+.chat__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: calc(-1 * var(--space-sm) + var(--space-xs));
+}
+
+.button.chat__chip {
+  height: 36px;
+  padding-inline: 14px;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: normal;
+  text-align: left;
+}
+
+.chat__composer {
+  flex: none;
+  margin-inline: var(--drawer-pad);
+  padding: var(--space-sm) 0 var(--space-md);
+  border-top: 1px solid var(--hairline);
+}
+
+.chat__field {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 6px 6px 6px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: 24px;
+  transition: border-color 0.2s var(--ease-out);
+}
+
+.chat__field:focus-within {
+  border-color: var(--on-surface-muted);
+}
+
+.chat__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 36px;
+  margin: 0;
+  padding: 6px 0;
   border: 0;
-  border-bottom: 1px solid var(--hairline);
-  border-radius: 0;
   background: none;
   color: var(--on-surface);
   font: inherit;
   font-size: 16px;
-  line-height: 1.5;
-  outline: none;
-  transition: border-color 0.2s var(--ease-out);
-}
-
-.field__input--area {
-  height: 92px;
+  line-height: 24px;
+  letter-spacing: inherit;
   resize: none;
+  outline: none;
+  overflow-y: hidden;
 }
 
-.field__input:hover {
-  border-color: rgb(255 255 255 / 0.32);
-}
-
-.field__input:focus {
-  border-color: var(--on-surface);
-}
-
-.field__input[aria-invalid='true'] {
-  border-color: rgb(255 255 255 / 0.32);
-}
-
-/* Browser autofill: keep the field on the drawer's dark surface instead of
-   the browser's pale-blue fill. The fill can't be overridden directly, so an
-   inset shadow paints over it (the underline sits outside, untouched) and the
-   background change is delayed out of reach. */
-.field__input:is(:-webkit-autofill, :autofill) {
-  -webkit-text-fill-color: var(--on-surface);
-  caret-color: var(--on-surface);
-  box-shadow: inset 0 0 0 1000px var(--surface);
-  transition: border-color 0.2s var(--ease-out), background-color 0s 600000s;
-}
-
-.field__label {
-  position: absolute;
-  top: 24px;
-  left: 0;
-  color: var(--on-surface-muted);
-  font-size: 16px;
-  line-height: 1.5;
-  pointer-events: none;
-  transform-origin: left top;
-  transition: transform 0.25s var(--ease-out), color 0.25s var(--ease-out);
-}
-
-.field__input:focus + .field__label,
-.field__input:not(:placeholder-shown) + .field__label,
-.field__input:is(:-webkit-autofill, :autofill) + .field__label {
-  transform: translateY(-22px) scale(0.75);
-}
-
-.field__input:focus + .field__label {
-  color: var(--on-surface);
-}
-
-.field__error {
-  margin-top: 6px;
-  color: var(--on-surface-muted);
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.drawer__footer {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 28px;
-}
-
-.consent {
-  display: flex;
-  gap: 14px;
-  color: var(--on-surface-muted);
-  font-size: 14px;
-  line-height: 1.5;
-  cursor: pointer;
-}
-
-.consent__box {
+.chat__send {
   flex: none;
   display: grid;
   place-items: center;
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  border: 1px solid rgb(255 255 255 / 0.4);
-  border-radius: 5px;
-  background: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--paper);
+  color: var(--ink);
   cursor: pointer;
-  appearance: none;
-  transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+  transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
 }
 
-.consent__box::after {
-  content: '';
-  width: 10px;
-  height: 6px;
-  border-bottom: 1.5px solid var(--surface);
-  border-left: 1.5px solid var(--surface);
-  transform: translateY(-1px) rotate(-45deg) scale(0);
-  transition: transform 0.2s var(--ease-out);
+.chat__send:disabled {
+  background-color: var(--hairline);
+  color: var(--on-surface-muted);
+  cursor: default;
 }
 
-.consent:hover .consent__box {
-  border-color: var(--on-surface);
+.chat__consent {
+  margin-top: 10px;
+  color: var(--on-surface-muted);
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-.consent__box:checked {
-  border-color: var(--on-surface);
-  background-color: var(--on-surface);
-}
-
-.consent__box:checked::after {
-  transform: translateY(-1px) rotate(-45deg) scale(1);
-}
-
-.consent__box:focus-visible {
-  outline: 2px solid var(--on-surface);
-  outline-offset: 2px;
-}
-
-.consent.is-invalid .consent__box {
-  border-color: var(--on-surface);
-  animation: consent-nudge 0.4s var(--ease-out);
-}
-
-@keyframes consent-nudge {
-  25% { transform: translateX(-3px); }
-  75% { transform: translateX(3px); }
-}
-
-.consent a {
+.chat__consent a {
   color: var(--on-surface);
   text-decoration: underline;
   text-underline-position: from-font;
+  cursor: pointer;
   transition: opacity 0.2s var(--ease-out);
 }
 
-.consent a:hover {
+.chat__consent a:hover {
   opacity: 0.6;
-}
-
-.drawer__submit {
-  width: 100%;
-}
-
-.drawer__done {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  min-height: 100%;
-  padding: var(--drawer-pad);
-}
-
-.drawer__form[hidden],
-.drawer__done[hidden] {
-  display: none;
-}
-
-.drawer__done .button {
-  margin-top: 40px;
 }
 
 @media (max-width: 768px) {
@@ -1413,8 +1463,13 @@ html.is-reduced .site-header {
     width: 100%;
   }
 
-  .drawer__body {
-    padding-bottom: calc(var(--drawer-pad) + env(safe-area-inset-bottom));
+  .chat__header {
+    min-height: 64px;
+    padding-block: 8px;
+  }
+
+  .chat__composer {
+    padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom));
   }
 }
 
@@ -1702,17 +1757,6 @@ html.is-reduced .site-header {
   .proof__title br {
     display: none;
   }
-
-  /* The row is the control. The box stays 20 px; the slop brings the hit area to 44. */
-  .consent__box {
-    position: relative;
-  }
-
-  .consent__box::before {
-    content: '';
-    position: absolute;
-    inset: calc(-1 * var(--space-xs));
-  }
 }
 
 @media (max-width: 768px) {
@@ -1811,6 +1855,16 @@ html.is-reduced .site-header {
 
 /* No zoom. The film and the copy are on screen; the page scrolls. */
 @media (prefers-reduced-motion: reduce) {
+  .chat__typing span {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  .chat__word,
+  .chat__summary > div {
+    transition: none;
+  }
+
   .hero,
   .is-reduced .hero {
     --copy: 1;

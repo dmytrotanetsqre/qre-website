@@ -505,61 +505,18 @@ const scrubCases = [];
   still.addEventListener('change', () => aimWork(null, null));
 
   /* ------------------------------------------------------------------------
-     6. Consultation form (drawer) and drawer chrome
+     6. Drawer chrome. The consultation drawer holds the scripted chat
+        (chat.js); opening it fires `drawer:open` so the chat can take focus.
      ------------------------------------------------------------------------ */
-  function wireConsultationForm(form, done, { emailErrorId = 'consult-email-error' } = {}) {
-    const email = form.elements.email;
-    const consent = form.elements.consent;
-
-    function setEmailError(message) {
-      const field = email.closest('.field');
-      field.querySelector('.field__error')?.remove();
-      email.removeAttribute('aria-invalid');
-      email.removeAttribute('aria-describedby');
-      if (!message) return;
-      email.setAttribute('aria-invalid', 'true');
-      const error = document.createElement('p');
-      error.className = 'field__error';
-      error.id = emailErrorId;
-      error.textContent = message;
-      email.setAttribute('aria-describedby', error.id);
-      field.append(error);
-    }
-
-    email.addEventListener('input', () => { if (email.hasAttribute('aria-invalid') && email.validity.valid) setEmailError(''); });
-    consent.addEventListener('change', () => consent.closest('.consent').classList.remove('is-invalid'));
-
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      setEmailError(email.validity.valid ? '' : 'Enter an e-mail we can reply to.');
-      const label = consent.closest('.consent');
-      label.classList.remove('is-invalid');
-      if (!consent.checked) {
-        void label.offsetWidth;
-        label.classList.add('is-invalid');
-      }
-      if (!email.validity.valid) return email.focus();
-      if (!consent.checked) return consent.focus();
-
-      form.reset();
-      form.hidden = true;
-      done.hidden = false;
-      done.querySelector('button, [href], input, textarea, select')?.focus();
-    });
-  }
-
   document.querySelectorAll('dialog.drawer').forEach((drawer) => {
     const panel = drawer.querySelector('.drawer__panel');
-    const form = drawer.querySelector('.drawer__form');
-    const done = drawer.querySelector('.drawer__done');
     let closing = 0;
 
     function open() {
       clearTimeout(closing);
-      form.hidden = false;
-      done.hidden = true;
       document.documentElement.classList.add('has-drawer');
       if (!drawer.open) drawer.showModal();
+      drawer.dispatchEvent(new CustomEvent('drawer:open'));
       requestAnimationFrame(() => requestAnimationFrame(() => drawer.classList.add('is-open')));
     }
 
@@ -583,8 +540,6 @@ const scrubCases = [];
     drawer.querySelectorAll('[data-drawer-close]').forEach((button) => button.addEventListener('click', close));
     drawer.addEventListener('cancel', (event) => { event.preventDefault(); close(); });
     drawer.addEventListener('click', (event) => { if (event.target === drawer) close(); });
-
-    wireConsultationForm(form, done, { emailErrorId: 'consult-email-error' });
   });
 
   /* ------------------------------------------------------------------------
