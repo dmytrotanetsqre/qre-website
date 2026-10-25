@@ -502,10 +502,17 @@ html.is-reduced .site-header {
 }
 
 /* --------------------------------------------------------------------------
-   Buttons — pill shape (Option 2 pattern).
+   Buttons — square corners (2026-10-26). Hover: a wash slides in from the
+   left over the button's own fill, 6 % dark on light buttons, 6 % white on
+   dark ones (--button-wash); the label stays as it is.
    -------------------------------------------------------------------------- */
 
 .button {
+  --button-wash: rgb(255 255 255 / 0.06);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -520,10 +527,33 @@ html.is-reduced .site-header {
   line-height: 1.6;
   letter-spacing: var(--tracking-body);
   text-decoration: none;
-  border-radius: 999px;
+  border-radius: 0;
   white-space: nowrap;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* The hover wash: behind the label, above the button's background. */
+.button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--button-wash);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-in-out);
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .button:hover::before {
+    transform: scaleX(1);
+  }
+}
+
+html.is-reduced .button::before {
+  transition: none;
 }
 
 /* The AI sparkles, before the label of the buttons that open the chat.
@@ -540,6 +570,8 @@ html.is-reduced .site-header {
 }
 
 .button--primary {
+  --button-wash: rgb(0 0 0 / 0.06);
+
   background-color: var(--paper);
   color: var(--ink);
 }
@@ -547,14 +579,6 @@ html.is-reduced .site-header {
 .button--outline {
   border-color: rgb(255 255 255 / 0.24);
   color: var(--paper);
-}
-
-@media (hover: hover) {
-  .button--outline:hover {
-    border-color: var(--paper);
-    background-color: rgb(255 255 255 / 0.08);
-    color: var(--paper);
-  }
 }
 
 /* The header CTA is a full-height white cell at the bar's right end: 64 px,
@@ -569,12 +593,6 @@ html.is-reduced .site-header {
   color: var(--ink);
   font-size: 14px;
   line-height: 20px;
-}
-
-@media (hover: hover) {
-  .button.site-header__cta:hover {
-    background-color: rgb(255 255 255 / 0.88);
-  }
 }
 
 .button.site-header__cta:focus-visible {
