@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="106" height="32" viewBox="0 0 106 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="logo">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M32.3766 5.33333V26.6667L29.4929 29.556L31.5393 32H5.32218L0 26.6667V5.33333L5.32218 0H27.0544L32.3766 5.33333ZM5.32218 26.6667H20.1258L10.8219 15.5556H17.7696L27.0544 26.6437V5.33333H5.32218V26.6667Z" fill="white"/>
+<path d="M70.0753 5.33333V15.5556L64.7531 20.8889H61.0768L70.3807 32H63.433L54.1291 20.8889H43.0209V32H37.6987V15.5556H64.7531V5.33333H37.6987V0H64.7531L70.0753 5.33333Z" fill="white"/>
+<path d="M106 32H73.6234V26.6667H106V32Z" fill="white"/>
+<path d="M95.3556 18.6667H73.6234V13.3333H95.3556V18.6667Z" fill="white"/>
+<path d="M106 5.33333H73.6234V0H106V5.33333Z" fill="white"/>
+</g>
+</svg>

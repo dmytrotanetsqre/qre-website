@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- Option 2: the hero from Option 1 (../index.html) without the ASCII gem,
+     set entirely in Inter: Inter Display for titles, Inter for text. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QRE — Australia’s Leading AI Developer</title>
+  <meta name="description" content="We help innovative startups and established enterprises unlock growth through sovereign AI models, seamless integrations, and top-tier engineering.">
+  <link rel="preload" href="../assets/fonts/inter-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <!-- The header is fixed and drawn in difference mode, so its white type
+       inverts whatever passes under it (the reel, a service image). The
+       Get in touch button sits outside it, so it stays a solid white pill. -->
+  <header class="site-header" data-header="hero">
+    <a class="site-header__logo" href="./">
+      <img src="../assets/icons/qre-logo.svg" width="106" height="32" alt="QRE">
+    </a>
+
+    <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+
+    <!-- Placeholders for now: no real links yet. -->
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link">About</a></li>
+        <li><a class="site-nav__link">Services</a></li>
+        <li><a class="site-nav__link">Work</a></li>
+        <li><a class="site-nav__link">Blog</a></li>
+        <li><a class="site-nav__link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <a class="button button--primary button--small header-cta" href="#contact">Get in touch</a>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__content">
+        <h1 class="hero__title" id="hero-title">Australia’s Leading AI Developer</h1>
+        <p class="hero__lede">
+          We help innovative startups and established enterprises unlock growth through
+          sovereign AI models, seamless integrations, and top-tier engineering.
+        </p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#contact">Book a consultation</a>
+          <a class="button button--outline" href="#work">View case studies</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Showreel: one full screen, straight after the hero. The video itself is
+         the fixed .reel below: small and following the cursor over the hero, it
+         grows into this frame as the page scrolls (site.js 3). The latest cut
+         (showreel/out/qre-showreel-v2.mp4), re-encoded for the web. -->
+    <section class="showreel" aria-label="Showreel"></section>
+
+    <!-- Services: a numbered list in three columns: number and name, the
+         image (hidden until the row is hovered), the description (likewise).
+         The descriptions are Option 1's service-card ledes (site.js 4). -->
+    <section class="services" id="services" aria-labelledby="services-title">
+      <h2 class="services__title" id="services-title">What we do</h2>
+      <ol class="services__list">
+        <li class="services__item">
+          <span class="services__index">01</span>
+          <span class="services__name">AI Agent</span>
+          <div class="services__media"><img src="../assets/services/ai-agents@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <p class="services__desc">Delivered across software, AI, web, design, automation and operational systems for startups, funded companies and established businesses.</p>
+        </li>
+        <li class="services__item">
+          <span class="services__index">02</span>
+          <span class="services__name">Custom AI Models</span>
+          <div class="services__media"><img src="../assets/services/custom-ai-models@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <p class="services__desc">We design, train, and deploy custom AI models tailored to your data, use case, and business goals.</p>
+        </li>
+        <li class="services__item">
+          <span class="services__index">03</span>
+          <span class="services__name">Mobile &amp; Desktop Apps</span>
+          <div class="services__media"><img src="../assets/services/mobile-desktop-apps@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <p class="services__desc">We build fast, reliable mobile and desktop apps that give your customers a seamless experience on any device.</p>
+        </li>
+        <li class="services__item">
+          <span class="services__index">04</span>
+          <span class="services__name">Websites</span>
+          <div class="services__media"><img src="../assets/services/websites@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <p class="services__desc">We design and build high-performing websites that showcase your brand and convert visitors into customers.</p>
+        </li>
+        <li class="services__item">
+          <span class="services__index">05</span>
+          <span class="services__name">Business Automation</span>
+          <div class="services__media"><img src="../assets/services/business-automation@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <p class="services__desc">We connect your existing tools and automate manual workflows so your team can focus on higher-value work.</p>
+        </li>
+        <li class="services__item">
+          <span class="services__index">06</span>
+          <span class="services__name">Analytics</span>
+          <div class="services__media"><img src="../assets/services/analytics@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <p class="services__desc">We turn your data into clear, actionable dashboards and reports that drive smarter decisions.</p>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <div class="reel" aria-hidden="true">
+    <video class="reel__video" src="media/showreel.mp4" autoplay muted loop playsinline preload="auto"></video>
+  </div>
+</body>
+</html>

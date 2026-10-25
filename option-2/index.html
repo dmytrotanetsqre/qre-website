@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!-- Option 2: the hero from Option 1 (../index.html) without the ASCII gem,
+     set entirely in Inter: Inter Display for titles, Inter for text. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QRE — Australia’s Leading AI Developer</title>
+  <meta name="description" content="We help innovative startups and established enterprises unlock growth through sovereign AI models, seamless integrations, and top-tier engineering.">
+  <link rel="preload" href="../assets/fonts/inter-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <!-- The header is fixed: transparent at the top of the page, solid with a
+       bottom line once it scrolls. -->
+  <header class="site-header" data-header="hero">
+    <a class="site-header__logo" href="./">
+      <img src="../assets/icons/qre-logo.svg" width="106" height="32" alt="QRE">
+    </a>
+
+    <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+
+    <!-- Placeholders for now: no real links yet. -->
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link">About</a></li>
+        <li><a class="site-nav__link">Services</a></li>
+        <li><a class="site-nav__link">Work</a></li>
+        <li><a class="site-nav__link">Blog</a></li>
+        <li><a class="site-nav__link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <a class="button button--outline button--small header-cta" href="#contact">Get in touch</a>
+
+  <main>
+    <!-- Hero: the copy (128 px below the header), then the showreel 64 px
+         under it, full width. The video drifts inside its frame as the
+         page scrolls (site.js 2, parallax). The latest cut
+         (showreel/out/qre-showreel-v2.mp4), re-encoded for the web. -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__content">
+        <h1 class="hero__title" id="hero-title"><span>Australia’s Leading</span> <span>AI Developer</span></h1>
+
+        <div class="hero__aside">
+          <p class="hero__lede">
+            We help innovative startups and established enterprises unlock growth through
+            sovereign AI models, seamless integrations, and top-tier engineering.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#contact">Book a consultation</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__reel" aria-hidden="true">
+        <video class="hero__video" src="media/showreel.mp4" autoplay muted loop playsinline preload="auto"></video>
+      </div>
+    </section>
+
+    <!-- Social proof & key metrics: Option 1's second section, in Option 2's
+         type and colours. -->
+    <section class="proof" aria-labelledby="proof-title">
+      <div class="proof__intro">
+        <h2 class="proof__title" id="proof-title">
+          Trusted by founders <br>and enterprises to unlock <br>AI-driven growth.
+        </h2>
+
+        <dl class="metrics">
+          <div class="metric">
+            <dt class="metric__value">200+</dt>
+            <dd class="metric__label">Completed Projects</dd>
+            <dd class="metric__note">Delivered across software, AI, web, design, automation and operational systems for startups, funded companies and established businesses.</dd>
+          </div>
+          <div class="metric">
+            <dt class="metric__value">$2.2B</dt>
+            <dd class="metric__label">Raised By Our Clients</dd>
+            <dd class="metric__note">Supporting companies with the digital products, platforms, decks and assets used across funding, launch and expansion stages.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Client logos: an endless strip. The list is repeated once so the loop has no seam;
+           the copy is hidden from assistive tech. -->
+      <div class="logos">
+        <div class="logos__track">
+          <ul class="logos__list" aria-label="Clients">
+            <li class="logo"><span class="logo__clip logo__clip--01"><span class="logo__mask logo__mask--01" role="img" aria-label="Powerplay AI"></span></span></li>
+            <li class="logo"><img src="../assets/logos/02.svg" width="78" height="78" alt="CTRL Print Group"></li>
+            <li class="logo"><img src="../assets/logos/03.svg" width="161" height="70" alt="Comuniq"></li>
+            <li class="logo"><img src="../assets/logos/04.svg" width="157" height="64" alt="Brazilian Booty Co"></li>
+            <li class="logo"><img src="../assets/logos/05.svg" width="198" height="56" alt="Compli One"></li>
+            <li class="logo"><img src="../assets/logos/06.svg" width="232" height="78" alt="NSW Government"></li>
+            <li class="logo"><img src="../assets/logos/07-xplorr.svg" width="160" height="27" alt="xplorr.ai"></li>
+            <li class="logo"><img src="../assets/logos/08-fill.svg" width="154" height="56" alt="Boston Trading Co"></li>
+            <li class="logo"><span class="logo__mask logo__mask--09" role="img" aria-label="Client logo"></span></li>
+            <li class="logo"><span class="logo__mask logo__mask--11" role="img" aria-label="SaucedIt"></span></li>
+            <li class="logo"><span class="logo__mask logo__mask--12" role="img" aria-label="Client logo"></span></li>
+          </ul>
+          <ul class="logos__list" aria-hidden="true">
+            <li class="logo"><span class="logo__clip logo__clip--01"><span class="logo__mask logo__mask--01"></span></span></li>
+            <li class="logo"><img src="../assets/logos/02.svg" width="78" height="78" alt=""></li>
+            <li class="logo"><img src="../assets/logos/03.svg" width="161" height="70" alt=""></li>
+            <li class="logo"><img src="../assets/logos/04.svg" width="157" height="64" alt=""></li>
+            <li class="logo"><img src="../assets/logos/05.svg" width="198" height="56" alt=""></li>
+            <li class="logo"><img src="../assets/logos/06.svg" width="232" height="78" alt=""></li>
+            <li class="logo"><img src="../assets/logos/07-xplorr.svg" width="160" height="27" alt=""></li>
+            <li class="logo"><img src="../assets/logos/08-fill.svg" width="154" height="56" alt=""></li>
+            <li class="logo"><span class="logo__mask logo__mask--09"></span></li>
+            <li class="logo"><span class="logo__mask logo__mask--11"></span></li>
+            <li class="logo"><span class="logo__mask logo__mask--12"></span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services (after estatelens.pl's "Zakres usług"): rows of name,
+         description and an up-right arrow, always shown. Hovering a row
+         nudges it right, shows the arrow, draws its two lines, and a
+         square of its image follows the cursor over the description,
+         under the name, which sits on it in difference blend (site.js 3). Small and touch screens show each image in its
+         row instead. -->
+    <section class="services" id="services" aria-labelledby="services-title">
+      <h2 class="services__title" id="services-title">What we do</h2>
+      <ul class="services__list">
+        <li class="services__item">
+          <div class="services__media"><img src="../assets/services/ai-agents@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <span class="services__name">AI Agent</span>
+          <p class="services__desc">Delivered across software, AI, web, design, automation and operational systems for startups, funded companies and established businesses.</p>
+          <span class="services__go" aria-hidden="true"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17 17 7M8 7h9v9" vector-effect="non-scaling-stroke"/></svg></span>
+        </li>
+        <li class="services__item">
+          <div class="services__media"><img src="../assets/services/custom-ai-models@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <span class="services__name">Custom AI Models</span>
+          <p class="services__desc">We design, train, and deploy custom AI models tailored to your data, use case, and business goals.</p>
+          <span class="services__go" aria-hidden="true"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17 17 7M8 7h9v9" vector-effect="non-scaling-stroke"/></svg></span>
+        </li>
+        <li class="services__item">
+          <div class="services__media"><img src="../assets/services/mobile-desktop-apps@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <span class="services__name">Mobile &amp; Desktop Apps</span>
+          <p class="services__desc">We build fast, reliable mobile and desktop apps that give your customers a seamless experience on any device.</p>
+          <span class="services__go" aria-hidden="true"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17 17 7M8 7h9v9" vector-effect="non-scaling-stroke"/></svg></span>
+        </li>
+        <li class="services__item">
+          <div class="services__media"><img src="../assets/services/websites@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <span class="services__name">Websites</span>
+          <p class="services__desc">We design and build high-performing websites that showcase your brand and convert visitors into customers.</p>
+          <span class="services__go" aria-hidden="true"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17 17 7M8 7h9v9" vector-effect="non-scaling-stroke"/></svg></span>
+        </li>
+        <li class="services__item">
+          <div class="services__media"><img src="../assets/services/business-automation@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <span class="services__name">Business Automation</span>
+          <p class="services__desc">We connect your existing tools and automate manual workflows so your team can focus on higher-value work.</p>
+          <span class="services__go" aria-hidden="true"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17 17 7M8 7h9v9" vector-effect="non-scaling-stroke"/></svg></span>
+        </li>
+        <li class="services__item">
+          <div class="services__media"><img src="../assets/services/analytics@2x.jpg" width="580" height="580" alt="" loading="lazy" decoding="async"></div>
+          <span class="services__name">Analytics</span>
+          <p class="services__desc">We turn your data into clear, actionable dashboards and reports that drive smarter decisions.</p>
+          <span class="services__go" aria-hidden="true"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17 17 7M8 7h9v9" vector-effect="non-scaling-stroke"/></svg></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Work: three full-screen cases, each a background image with the
+         case name, a short description and a Read case study button. The
+         image sits in 3D and tilts and drifts after the cursor, eased, as
+         if you were looking into it (site.js 4). Images from Figma
+         (QRE daily tasks, 788:564); copy from Option 1's case cards. -->
+    <section class="work" id="work" aria-labelledby="work-title">
+      <h2 class="visually-hidden" id="work-title">Selected work</h2>
+
+      <article class="work-case">
+        <div class="work-case__scene" aria-hidden="true">
+          <img class="work-case__image" src="media/work/dream-landscape.jpg" width="2400" height="2400" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="work-case__content">
+          <h3 class="work-case__title">AI Sleep Tracker &amp; Dream Decoder</h3>
+          <p class="work-case__desc">An AI-powered mobile app that tracks sleep patterns, analyses behavioural data, and uses generative AI to visually decode and interpret user dreams.</p>
+          <a class="button button--primary work-case__cta" href="#work">Read case study</a>
+        </div>
+      </article>
+
+      <article class="work-case">
+        <div class="work-case__scene" aria-hidden="true">
+          <img class="work-case__image" src="media/work/coastline.jpg" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="work-case__content">
+          <h3 class="work-case__title">Holiday Park Website Redesign</h3>
+          <p class="work-case__desc">A new website for a coastal holiday park: clearer stays and offers, faster booking, and a brand that feels like the place itself.</p>
+          <a class="button button--primary work-case__cta" href="#work">Read case study</a>
+        </div>
+      </article>
+
+      <article class="work-case">
+        <div class="work-case__scene" aria-hidden="true">
+          <img class="work-case__image" src="media/work/particle-wave.jpg" width="2464" height="1856" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="work-case__content">
+          <h3 class="work-case__title">GPU Cloud Platform Website</h3>
+          <p class="work-case__desc">A new website for Sharon AI, an Australian neocloud providing GPU compute and storage for AI and HPC workloads, as part of the company’s rebrand.</p>
+          <a class="button button--primary work-case__cta" href="#work">Read case study</a>
+        </div>
+      </article>
+    </section>
+
+    <!-- Contact: Option 1's closing statement, in Option 2's type. Behind it,
+         in place of Option 1's ASCII gem, the logo's Q as a wireframe slab
+         at an isometric angle, turning a little towards the cursor (site.js 5). -->
+    <section class="cta" id="contact" aria-labelledby="cta-title">
+      <canvas class="cta__q" aria-hidden="true"></canvas>
+      <h2 class="cta__title" id="cta-title">
+        <span class="cta__kicker">Ready to scale with AI?</span>
+        Let’s&nbsp;build intelligent systems together.
+      </h2>
+      <a class="button button--primary cta__button" href="mailto:info@quantumrealm.ai">Book a call</a>
+    </section>
+  </main>
+
+  <!-- Footer: Option 1's, in Option 2's type. The links are placeholders (no
+       href), so they look and hover like links but go nowhere yet. -->
+  <footer class="site-footer">
+    <div class="site-footer__brand">
+      <span class="site-footer__logo" role="img" aria-label="QRE"></span>
+      <div class="site-footer__fine">
+        <p class="site-footer__copyright">© 2026 Quantum Realm Engineering.<br> All rights reserved</p>
+        <nav aria-label="Legal">
+          <ul class="site-footer__legal">
+            <li><a>Terms of service</a></li>
+            <li><a>Privacy Policy</a></li>
+            <li><a>Cookies Policy</a></li>
+          </ul>
+        </nav>
+      </div>
+      <ul class="site-footer__social">
+        <li><a class="site-footer__social-link site-footer__social-link--x"><span class="visually-hidden">X</span></a></li>
+        <li><a class="site-footer__social-link site-footer__social-link--linkedin"><span class="visually-hidden">LinkedIn</span></a></li>
+      </ul>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Footer">
+      <ul class="site-footer__links site-footer__pages">
+        <li><a>AI Agent</a></li>
+        <li><a>Custom AI Models</a></li>
+        <li><a>Mobile &amp; Desktop Apps</a></li>
+        <li><a>Websites</a></li>
+        <li><a>Business Automation</a></li>
+        <li><a>Analytics</a></li>
+        <li><a>About us</a></li>
+        <li><a>What We Do</a></li>
+      </ul>
+
+      <ul class="site-footer__links site-footer__contacts">
+        <li><a>02 5301 8397</a></li>
+        <li><a>info@quantumrealm.ai</a></li>
+        <li><a>L28 161 Castlereagh Street, Sydney</a></li>
+      </ul>
+    </nav>
+  </footer>
+</body>
+</html>

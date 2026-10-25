@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!-- Tuning page for option-3/crystal.js. Not linked from the site. -->
+<html lang="en" data-tone="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Crystal lab — QRE</title>
+  <link rel="icon" href="../assets/icons/qre-logo.svg">
+  <link rel="preload" href="../assets/fonts/inter-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="vendor/three.module.js">
+  <link rel="modulepreload" href="crystal.js">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .lab__stage {
+      position: fixed;
+      inset: 0 0 200px 0;
+    }
+
+    .lab__bar {
+      position: fixed;
+      z-index: 2;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: min(920px, calc(100% - 32px));
+      padding: 28px 0 max(22px, env(safe-area-inset-bottom));
+      background: linear-gradient(to top, #1a1a1a 40%, rgb(26 26 26 / 0));
+    }
+
+    .lab__shapes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .lab__shapes .button {
+      height: 44px;
+      padding-inline: 16px;
+      font-size: 14px;
+    }
+
+    .lab__shapes .button.is-on {
+      background-color: var(--paper);
+      color: var(--ink);
+      border-color: var(--paper);
+    }
+
+    .lab__duration {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--paper);
+      font-size: 14px;
+      font-variation-settings: 'opsz' var(--opsz-text);
+      letter-spacing: var(--tracking-body);
+    }
+
+    .lab__duration input[type='range'] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: min(240px, 42vw);
+      height: 2px;
+      margin: 0;
+      border-radius: 999px;
+      background: rgb(255 255 255 / 0.28);
+      cursor: pointer;
+    }
+
+    .lab__duration input[type='range']::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--paper);
+      cursor: pointer;
+    }
+
+    .lab__duration input[type='range']::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--paper);
+      cursor: pointer;
+    }
+
+    .lab__duration output {
+      min-width: 6.5ch;
+      font-variant-numeric: tabular-nums;
+      color: rgb(255 255 255 / 0.72);
+    }
+
+    .lab__note {
+      margin: 0;
+      color: rgb(255 255 255 / 0.72);
+      font-size: 13px;
+      letter-spacing: var(--tracking-body);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="visually-hidden">Crystal lab</h1>
+  <div class="lab__stage" id="stage"></div>
+  <div class="lab__bar">
+    <div class="lab__shapes" id="shapes" role="group" aria-label="Shapes"></div>
+    <label class="lab__duration">
+      <span>Morph duration</span>
+      <input id="duration" type="range" min="200" max="2000" step="20" value="900">
+      <output id="duration-out" for="duration">900 ms</output>
+    </label>
+    <p class="lab__note">The 0/1 grid stays still. Buttons change which shape is lit.</p>
+    <p class="lab__note" id="reduced-note" hidden>Reduced motion is on, so the shape holds still and morphs crossfade.</p>
+  </div>
+  <script type="module">
+    import { createCrystal, SHAPES, CONFIG } from './crystal.js';
+
+    const stage = document.querySelector('#stage');
+    const shapes = document.querySelector('#shapes');
+    const duration = document.querySelector('#duration');
+    const durationOut = document.querySelector('#duration-out');
+    const note = document.querySelector('#reduced-note');
+    const crystal = createCrystal(stage, { shape: 'crystal' });
+    let current = 'crystal';
+
+    duration.value = String(CONFIG.morphDuration);
+    durationOut.textContent = CONFIG.morphDuration + ' ms';
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) note.hidden = false;
+
+    duration.addEventListener('input', () => {
+      durationOut.textContent = duration.value + ' ms';
+    });
+
+    Object.entries(SHAPES).forEach(([name, spec]) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'button button--outline' + (name === current ? ' is-on' : '');
+      button.textContent = spec.title;
+      button.setAttribute('aria-pressed', name === current ? 'true' : 'false');
+      button.addEventListener('click', () => {
+        current = name;
+        crystal.morphTo(name, { duration: Number(duration.value) });
+        shapes.querySelectorAll('button').forEach((other) => {
+          const on = other === button;
+          other.classList.toggle('is-on', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      });
+      shapes.append(button);
+    });
+  </script>
+</body>
+</html>

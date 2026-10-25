@@ -1,0 +1,31 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "qre-new",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4180",
+        "--bind",
+        "127.0.0.1"
+      ],
+      "port": 4180
+    },
+    {
+      "name": "qre-showreel",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "showreel",
+        "run",
+        "dev",
+        "--",
+        "--port=3300",
+        "--no-open"
+      ],
+      "port": 3300
+    }
+  ]
+}

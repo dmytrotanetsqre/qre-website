@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<!-- data-tone: the page's current tone, dark or light; site.js keeps it in step
+     with the section at the middle of the screen (each section declares its own). -->
+<html lang="en" data-tone="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QRE — Australia’s Leading AI Developer</title>
+  <meta name="description" content="We help innovative startups and established enterprises unlock growth through sovereign AI models, seamless integrations, and top-tier engineering.">
+  <link rel="preload" href="assets/fonts/inter-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/geist-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <!-- The intro (script.js): the page opens on the gem alone, then settles into the hero.
+       Set before first paint so nothing else ever flashes; skipped with reduced motion.
+       It always starts at the top: a reload part-way down would otherwise restore the
+       scroll position and show the sections below. -->
+  <script>
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('is-intro');
+      history.scrollRestoration = 'manual';
+      scrollTo(0, 0);
+    }
+  </script>
+  <script src="script.js" defer></script>
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <!-- Film grain over the whole page while it's dark (style.css), so every dark section
+       has the hero's texture and none of them ends on an edge. -->
+  <div class="page-grain" aria-hidden="true"><div class="hero__noise"></div></div>
+  <!-- Header 1: static, sits over the hero and scrolls away with it. -->
+  <header class="site-header site-header--hero" data-header="hero">
+    <a class="site-header__logo" href="/">
+      <img src="assets/icons/qre-logo.svg" width="106" height="32" alt="QRE">
+    </a>
+
+    <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav-hero">Menu</button>
+
+    <nav class="site-nav" id="site-nav-hero" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link">About</a></li>
+        <li><a class="site-nav__link">Services</a></li>
+        <li><a class="site-nav__link">Work</a></li>
+        <li><a class="site-nav__link">Blog</a></li>
+        <li><a class="site-nav__link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Header 2: fixed, dark; slides in past the hero (site.js). -->
+  <header class="site-header site-header--sticky" data-header="sticky" inert>
+    <a class="site-header__logo" href="/">
+      <img src="assets/icons/qre-logo.svg" width="106" height="32" alt="QRE">
+    </a>
+
+    <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav-sticky">Menu</button>
+
+    <nav class="site-nav" id="site-nav-sticky" aria-label="Primary, sticky">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link">About</a></li>
+        <li><a class="site-nav__link">Services</a></li>
+        <li><a class="site-nav__link">Work</a></li>
+        <li><a class="site-nav__link">Blog</a></li>
+        <li><a class="site-nav__link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero: one full-screen frame. The ASCII art is drawn into the canvas;
+         script.js adds the hidden image/video element it samples from. -->
+    <section class="hero" data-tone="dark" aria-labelledby="hero-title">
+      <canvas class="hero__canvas" aria-hidden="true"></canvas>
+      <div class="hero__noise" aria-hidden="true"></div>
+
+      <div class="hero__content">
+        <h1 class="hero__title" id="hero-title">Australia’s Leading AI Developer</h1>
+
+        <div class="hero__aside">
+          <p class="hero__lede">
+            We help innovative startups and established enterprises unlock growth through
+            sovereign AI models, seamless integrations, and top-tier engineering.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#contact">Book a consultation</a>
+            <a class="button button--outline" href="#work">View case studies</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social proof & key metrics -->
+    <section class="proof" data-tone="dark" aria-labelledby="proof-title">
+      <div class="proof__intro">
+        <h2 class="proof__title" id="proof-title">
+          Trusted by founders <br>and enterprises to unlock <br>AI-driven growth.
+        </h2>
+
+        <dl class="metrics">
+          <div class="metric">
+            <dt class="metric__value">200+</dt>
+            <dd class="metric__label">Completed Projects</dd>
+            <dd class="metric__note">Delivered across software, AI, web, design, automation and operational systems for startups, funded companies and established businesses.</dd>
+          </div>
+          <div class="metric">
+            <dt class="metric__value">$2.2B</dt>
+            <dd class="metric__label">Raised By Our Clients</dd>
+            <dd class="metric__note">Supporting companies with the digital products, platforms, decks and assets used across funding, launch and expansion stages.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Client logos: an endless strip. The list is repeated once so the loop has no seam;
+           the copy is hidden from assistive tech. -->
+      <div class="logos">
+        <div class="logos__track">
+          <ul class="logos__list" aria-label="Clients">
+            <li class="logo"><span class="logo__clip logo__clip--01"><span class="logo__mask logo__mask--01" role="img" aria-label="Powerplay AI"></span></span></li>
+            <li class="logo"><img src="assets/logos/02.svg" width="78" height="78" alt="CTRL Print Group"></li>
+            <li class="logo"><img src="assets/logos/03.svg" width="161" height="70" alt="Comuniq"></li>
+            <li class="logo"><img src="assets/logos/04.svg" width="157" height="64" alt="Brazilian Booty Co"></li>
+            <li class="logo"><img src="assets/logos/05.svg" width="198" height="56" alt="Compli One"></li>
+            <li class="logo"><img src="assets/logos/06.svg" width="232" height="78" alt="NSW Government"></li>
+            <li class="logo"><img src="assets/logos/07-xplorr.svg" width="160" height="27" alt="xplorr.ai"></li>
+            <li class="logo"><img src="assets/logos/08-fill.svg" width="154" height="56" alt="Boston Trading Co"></li>
+            <li class="logo"><span class="logo__mask logo__mask--09" role="img" aria-label="Client logo"></span></li>
+            <li class="logo"><span class="logo__mask logo__mask--11" role="img" aria-label="SaucedIt"></span></li>
+            <li class="logo"><span class="logo__mask logo__mask--12" role="img" aria-label="Client logo"></span></li>
+          </ul>
+          <ul class="logos__list" aria-hidden="true">
+            <li class="logo"><span class="logo__clip logo__clip--01"><span class="logo__mask logo__mask--01"></span></span></li>
+            <li class="logo"><img src="assets/logos/02.svg" width="78" height="78" alt=""></li>
+            <li class="logo"><img src="assets/logos/03.svg" width="161" height="70" alt=""></li>
+            <li class="logo"><img src="assets/logos/04.svg" width="157" height="64" alt=""></li>
+            <li class="logo"><img src="assets/logos/05.svg" width="198" height="56" alt=""></li>
+            <li class="logo"><img src="assets/logos/06.svg" width="232" height="78" alt=""></li>
+            <li class="logo"><img src="assets/logos/07-xplorr.svg" width="160" height="27" alt=""></li>
+            <li class="logo"><img src="assets/logos/08-fill.svg" width="154" height="56" alt=""></li>
+            <li class="logo"><span class="logo__mask logo__mask--09"></span></li>
+            <li class="logo"><span class="logo__mask logo__mask--11"></span></li>
+            <li class="logo"><span class="logo__mask logo__mask--12"></span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services: each card pins under the header and the next one slides over it (site.js). -->
+    <section class="services" id="services" data-tone="dark" aria-labelledby="services-title">
+      <h2 class="services__title" id="services-title">What we do</h2>
+
+      <div class="services__stack">
+        <article class="service" id="ai-agents">
+          <div class="service__inner">
+            <div class="service__body">
+              <h3 class="service__title">AI Agent</h3>
+              <p class="service__lede">Delivered across software, AI, web, design, automation and operational systems for startups, funded companies and established businesses.</p>
+              <ul class="service__list">
+                <li>AI customer support</li>
+                <li>Autonomous sales outreach</li>
+                <li>Smart operations triage</li>
+                <li>24/7 digital assistants</li>
+              </ul>
+              <a class="button button--outline" href="#ai-agents">Learn more</a>
+            </div>
+            <figure class="service__visual">
+              <img src="assets/services/ai-agents@2x.jpg"
+                   srcset="assets/services/ai-agents@2x.jpg 1160w, assets/services/ai-agents@4x.jpg 2320w"
+                   sizes="(max-width: 768px) 100vw, 41vw" width="580" height="580" loading="lazy" decoding="async"
+                   alt="An AI agent at the centre of task lists, analytics, workflows and insights panels.">
+            </figure>
+          </div>
+        </article>
+
+        <article class="service" id="custom-ai-models">
+          <div class="service__inner">
+            <div class="service__body">
+              <h3 class="service__title">Custom AI Models</h3>
+              <p class="service__lede">We design, train, and deploy custom AI models tailored to your data, use case, and business goals.</p>
+              <ul class="service__list">
+                <li>Model fine-tuning</li>
+                <li>Private/hosted deployment</li>
+                <li>Domain-specific models</li>
+                <li>Model integration &amp; support</li>
+              </ul>
+              <a class="button button--outline" href="#custom-ai-models">Learn more</a>
+            </div>
+            <figure class="service__visual">
+              <img src="assets/services/custom-ai-models@2x.jpg"
+                   srcset="assets/services/custom-ai-models@2x.jpg 1160w, assets/services/custom-ai-models@4x.jpg 2320w"
+                   sizes="(max-width: 768px) 100vw, 41vw" width="580" height="580" loading="lazy" decoding="async"
+                   alt="A prompt box connected to data sources and tools above and below it.">
+            </figure>
+          </div>
+        </article>
+
+        <article class="service" id="mobile-desktop-apps">
+          <div class="service__inner">
+            <div class="service__body">
+              <h3 class="service__title">Mobile &amp; Desktop Apps</h3>
+              <p class="service__lede">We build fast, reliable mobile and desktop apps that give your customers a seamless experience on any device.</p>
+              <ul class="service__list">
+                <li>Native iOS &amp; Android apps</li>
+                <li>Cross-platform apps</li>
+                <li>Desktop applications</li>
+                <li>Progressive web apps</li>
+              </ul>
+              <a class="button button--outline" href="#mobile-desktop-apps">Learn more</a>
+            </div>
+            <figure class="service__visual">
+              <img src="assets/services/mobile-desktop-apps@2x.jpg"
+                   srcset="assets/services/mobile-desktop-apps@2x.jpg 1160w, assets/services/mobile-desktop-apps@4x.jpg 2320w"
+                   sizes="(max-width: 768px) 100vw, 41vw" width="580" height="580" loading="lazy" decoding="async"
+                   alt="A banking app on a phone in front of a desktop chart dashboard.">
+            </figure>
+          </div>
+        </article>
+
+        <article class="service" id="websites">
+          <div class="service__inner">
+            <div class="service__body">
+              <h3 class="service__title">Websites</h3>
+              <p class="service__lede">We design and build high-performing websites that showcase your brand and convert visitors into customers.</p>
+              <ul class="service__list">
+                <li>Marketing &amp; brand websites</li>
+                <li>E-commerce platforms</li>
+                <li>Custom web applications</li>
+                <li>SEO-optimised architecture</li>
+              </ul>
+              <a class="button button--outline" href="#websites">Learn more</a>
+            </div>
+            <figure class="service__visual">
+              <img src="assets/services/websites@2x.jpg"
+                   srcset="assets/services/websites@2x.jpg 1160w, assets/services/websites@4x.jpg 2320w"
+                   sizes="(max-width: 768px) 100vw, 41vw" width="580" height="580" loading="lazy" decoding="async"
+                   alt="A website design on a phone screen over lines of code.">
+            </figure>
+          </div>
+        </article>
+
+        <article class="service" id="business-automation">
+          <div class="service__inner">
+            <div class="service__body">
+              <h3 class="service__title">Business Automation</h3>
+              <p class="service__lede">We connect your existing tools and automate manual workflows so your team can focus on higher-value work.</p>
+              <ul class="service__list">
+                <li>Workflow automation</li>
+                <li>CRM &amp; tool integrations</li>
+                <li>Document &amp; approval automation</li>
+                <li>Internal operations tooling</li>
+              </ul>
+              <a class="button button--outline" href="#business-automation">Learn more</a>
+            </div>
+            <figure class="service__visual">
+              <img src="assets/services/business-automation@2x.jpg"
+                   srcset="assets/services/business-automation@2x.jpg 1160w, assets/services/business-automation@4x.jpg 2320w"
+                   sizes="(max-width: 768px) 100vw, 41vw" width="580" height="580" loading="lazy" decoding="async"
+                   alt="A glowing gear surrounded by connected workflow cards.">
+            </figure>
+          </div>
+        </article>
+
+        <article class="service" id="analytics">
+          <div class="service__inner">
+            <div class="service__body">
+              <h3 class="service__title">Analytics</h3>
+              <p class="service__lede">We turn your data into clear, actionable dashboards and reports that drive smarter decisions.</p>
+              <ul class="service__list">
+                <li>Custom dashboards</li>
+                <li>Real-time reporting</li>
+                <li>Predictive analytics</li>
+                <li>Data pipeline integration</li>
+              </ul>
+              <a class="button button--outline" href="#analytics">Learn more</a>
+            </div>
+            <figure class="service__visual">
+              <img src="assets/services/analytics@2x.jpg"
+                   srcset="assets/services/analytics@2x.jpg 1160w, assets/services/analytics@4x.jpg 2320w"
+                   sizes="(max-width: 768px) 100vw, 41vw" width="580" height="580" loading="lazy" decoding="async"
+                   alt="Analytics dashboards with heatmaps, bar charts and a trend line.">
+            </figure>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Recent work: case studies in a staggered layout. Hovering an image bends it under
+         a glass lens (site.js). -->
+    <section class="work" id="work" data-tone="dark" aria-labelledby="work-title">
+      <div class="work__head">
+        <h2 class="work__title" id="work-title">Recent work</h2>
+        <a class="button button--outline" href="#work">See our portfolio</a>
+      </div>
+
+      <div class="work__grid">
+        <!-- Summary is duplicated from the Sleep Tracker card in the Figma file; kept as
+             designed until the real copy is written. -->
+        <article class="case">
+          <figure class="case__visual">
+            <img src="assets/cases/holiday-park@2x.jpg"
+                 srcset="assets/cases/holiday-park@2x.jpg 840w, assets/cases/holiday-park@4x.jpg 1680w"
+                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 29vw" width="420" height="315"
+                 loading="lazy" decoding="async"
+                 alt="A holiday park website over an aerial photo of a turquoise bay: “A place so beautiful, you’ll want to keep it a secret”.">
+          </figure>
+          <div class="case__text">
+            <h3 class="case__title">Holiday Park Website Redesign</h3>
+            <p class="case__summary">An advanced AI-powered mobile ecosystem that tracks sleep patterns, analyzes behavioral data, and uses generative AI to visually decode and interpret user dreams.</p>
+          </div>
+          <ul class="case__tags">
+            <li class="tag">Website</li>
+            <li class="tag">Branding</li>
+          </ul>
+        </article>
+
+        <article class="case">
+          <figure class="case__visual">
+            <img src="assets/cases/survey-platform@2x.jpg"
+                 srcset="assets/cases/survey-platform@2x.jpg 1280w, assets/cases/survey-platform@4x.jpg 2560w"
+                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 44vw" width="640" height="480"
+                 loading="lazy" decoding="async"
+                 alt="A survey results dashboard with a response breakdown chart and answer tallies.">
+          </figure>
+          <div class="case__text">
+            <h3 class="case__title">AI-Powered Survey Platform</h3>
+            <p class="case__summary">Rebuilt an AI-generated MVP for automated phone and SMS surveys into a scalable B2B product.</p>
+          </div>
+          <ul class="case__tags">
+            <li class="tag">Web app</li>
+            <li class="tag">AI development</li>
+            <li class="tag">Analytics</li>
+          </ul>
+        </article>
+
+        <article class="case">
+          <figure class="case__visual">
+            <img src="assets/cases/sleep-tracker@2x.jpg"
+                 srcset="assets/cases/sleep-tracker@2x.jpg 1120w, assets/cases/sleep-tracker@4x.jpg 2240w"
+                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 39vw" width="560" height="420"
+                 loading="lazy" decoding="async"
+                 alt="Two phones showing a dream journal app: a purple planet landscape and an iridescent orb.">
+          </figure>
+          <div class="case__text">
+            <h3 class="case__title">AI Sleep Tracker &amp; Dream Decoder app</h3>
+            <p class="case__summary">An advanced AI-powered mobile app that tracks sleep patterns, analyzes behavioral data, and uses generative AI to visually decode and interpret user dreams.</p>
+          </div>
+          <ul class="case__tags">
+            <li class="tag">Mobile app</li>
+            <li class="tag">AI development</li>
+          </ul>
+        </article>
+
+        <article class="case">
+          <figure class="case__visual">
+            <img src="assets/cases/wine-retail@2x.jpg"
+                 srcset="assets/cases/wine-retail@2x.jpg 840w, assets/cases/wine-retail@4x.jpg 1680w"
+                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 29vw" width="420" height="315"
+                 loading="lazy" decoding="async"
+                 alt="A tablet showing a wine search app with filters and a list of matching bottles.">
+          </figure>
+          <div class="case__text">
+            <h3 class="case__title">Wine Retail Assistant Platform</h3>
+            <p class="case__summary">Redesigned a rough AI-generated tool into a proper product for wine shop staff.</p>
+          </div>
+          <ul class="case__tags">
+            <li class="tag">Web app</li>
+            <li class="tag">AI development</li>
+          </ul>
+        </article>
+
+        <article class="case">
+          <figure class="case__visual">
+            <img src="assets/cases/gpu-cloud@2x.jpg"
+                 srcset="assets/cases/gpu-cloud@2x.jpg 1360w, assets/cases/gpu-cloud@4x.jpg 2720w"
+                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 47vw" width="680" height="510"
+                 loading="lazy" decoding="async"
+                 alt="The Sharon AI website: “Australian Sovereign AI Infrastructure Built to Solve Humanity’s Greatest Challenges” over a blue particle wave.">
+          </figure>
+          <div class="case__text">
+            <h3 class="case__title">GPU Cloud Platform Website Redesign</h3>
+            <p class="case__summary">Designed a new website for Sharon AI, an Australian Neocloud providing GPU cloud compute and storage infrastructure for AI and HPC workloads, as part of the company’s rebranding.</p>
+          </div>
+          <ul class="case__tags">
+            <li class="tag">Website</li>
+            <li class="tag">Branding</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact: the page turns dark as this reaches the middle of the screen. -->
+    <section class="cta" id="contact" data-tone="dark" aria-labelledby="cta-title">
+      <!-- The gem again, dimmer, with the hero's hover (script.js, end of file), fading out towards
+           the section's edges. -->
+      <div class="cta__backdrop" aria-hidden="true">
+        <canvas class="cta__art"></canvas>
+      </div>
+      <h2 class="cta__title" id="cta-title">
+        <span class="cta__kicker">Ready to scale with AI?</span>
+        Let’s&nbsp;build intelligent systems together.
+      </h2>
+      <button class="button button--primary cta__button" type="button" data-drawer-open="consultation">Book a call</button>
+    </section>
+  </main>
+
+  <!-- Consultation drawer (site.js 8): slides in from the right; full screen on
+       phones. Always dark, whatever the page tone. The form has no backend yet:
+       submitting shows the thank-you state. -->
+  <dialog class="drawer" id="consultation" aria-labelledby="drawer-title">
+    <div class="drawer__panel">
+      <button class="drawer__close" type="button" data-drawer-close aria-label="Close">
+        <svg viewBox="0 0 18 18" width="18" height="18" aria-hidden="true"><path d="M2 18H0V16H2V18ZM18 16V18H16V16H18ZM4 16H2V14H4V16ZM16 14V16H14V14H16ZM6 14H4V12H6V14ZM14 12V14H12V12H14ZM8 12H6V10H8V12ZM12 10V12H10V10H12ZM10 8V10H8V8H10ZM8 8H6V6H8V8ZM12 6V8H10V6H12ZM6 6H4V4H6V6ZM14 4V6H12V4H14ZM4 4H2V2H4V4ZM16 2V4H14V2H16ZM2 2H0V0H2V2ZM18 0V2H16V0H18Z" fill="currentColor"/></svg>
+      </button>
+
+      <form class="drawer__form" novalidate>
+        <div class="drawer__body">
+          <div class="drawer__team" aria-hidden="true">
+            <img src="assets/team/team-1.jpg" alt="" width="48" height="48">
+            <img src="assets/team/team-2.jpg" alt="" width="48" height="48">
+            <img src="assets/team/team-3.jpg" alt="" width="48" height="48">
+          </div>
+          <h2 class="drawer__title" id="drawer-title">Get a free consultation</h2>
+          <p class="drawer__lead">We will set up a meeting in 24 hours.</p>
+
+          <div class="drawer__fields">
+            <div class="field">
+              <input class="field__input" id="consult-email" name="email" type="email" autocomplete="email" placeholder=" " required>
+              <label class="field__label" for="consult-email">E-mail</label>
+            </div>
+            <div class="field">
+              <input class="field__input" id="consult-company" name="company" type="text" autocomplete="organization" placeholder=" ">
+              <label class="field__label" for="consult-company">Company Name</label>
+            </div>
+            <div class="field">
+              <textarea class="field__input field__input--area" id="consult-message" name="message" rows="4" placeholder=" "></textarea>
+              <label class="field__label" for="consult-message">Want to add anything else?</label>
+            </div>
+          </div>
+
+          <div class="drawer__footer">
+            <label class="consent">
+              <input class="consent__box" type="checkbox" name="consent" required>
+              <span class="consent__text">By checking this box, I acknowledge that I have familiarized with and agree to be bound by the <a>Terms of Service</a> and I accept the <a>Privacy Policy</a></span>
+            </label>
+            <button class="button button--primary drawer__submit" type="submit">Send request</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="drawer__done" hidden>
+        <h2 class="drawer__title">Thank you</h2>
+        <p class="drawer__lead">We’ll be in touch within 24 hours to set up the meeting.</p>
+        <button class="button button--outline" type="button" data-drawer-close>Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Footer: the services from the cards above, the rest from quantumrealm.ai's
+       footer. The links are placeholders (no href), so they look and hover like
+       links but go nowhere yet. -->
+  <footer class="site-footer" data-tone="dark">
+    <div class="site-footer__brand">
+      <span class="site-footer__logo" role="img" aria-label="QRE"></span>
+      <div class="site-footer__fine">
+        <p class="site-footer__copyright">© 2026 Quantum Realm Engineering.<br> All rights reserved</p>
+        <nav aria-label="Legal">
+          <ul class="site-footer__legal">
+            <li><a>Terms of service</a></li>
+            <li><a>Privacy Policy</a></li>
+            <li><a>Cookies Policy</a></li>
+          </ul>
+        </nav>
+      </div>
+      <ul class="site-footer__social">
+        <li><a class="site-footer__social-link site-footer__social-link--x"><span class="visually-hidden">X</span></a></li>
+        <li><a class="site-footer__social-link site-footer__social-link--linkedin"><span class="visually-hidden">LinkedIn</span></a></li>
+      </ul>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Footer">
+      <ul class="site-footer__links site-footer__pages">
+        <li><a>AI Agent</a></li>
+        <li><a>Custom AI Models</a></li>
+        <li><a>Mobile &amp; Desktop Apps</a></li>
+        <li><a>Websites</a></li>
+        <li><a>Business Automation</a></li>
+        <li><a>Analytics</a></li>
+        <li><a>About us</a></li>
+        <li><a>What We Do</a></li>
+      </ul>
+
+      <ul class="site-footer__links site-footer__contacts">
+        <li><a>02 5301 8397</a></li>
+        <li><a>info@quantumrealm.ai</a></li>
+        <li><a>L28 161 Castlereagh Street, Sydney</a></li>
+      </ul>
+    </nav>
+  </footer>
+</body>
+</html>
