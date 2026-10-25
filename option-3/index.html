@@ -25,7 +25,7 @@
   </script>
   <script src="script.js" defer></script>
   <script src="site.js" defer></script>
-  <script type="module" src="cta-rain.js"></script>
+  <!-- 0/1 rain parked, see cta-rain.js (was <script type="module" src="cta-rain.js"></script>) -->
   <!-- 3D Q parked, see cta-q.js
   <script type="module" src="cta-q.js"></script>
   -->
@@ -311,52 +311,16 @@
       <div class="work__pin" aria-hidden="true"></div>
     </section>
 
-    <!-- Contact: ASCII rain behind copy + form (cta-rain.js). -->
+    <!-- Contact: centred statement and one button over the ASCII blob (site.js 6b). Opens the chat drawer. -->
     <section class="cta" id="contact" data-tone="dark" aria-labelledby="cta-title">
-      <canvas class="cta__rain" aria-hidden="true"></canvas>
-      <div class="cta__inner">
-        <div class="cta__stage">
-          <!-- 3D Q parked, see cta-q.js
-          <div class="cta__art" aria-hidden="true"></div>
-          -->
-          <div class="cta__copy">
-            <p class="cta__kicker">Ready to scale with AI?</p>
-            <h2 class="cta__title" id="cta-title">Let’s build intelligent systems together.</h2>
-            <p class="cta__lead drawer__lead">We will set up a meeting in 24 hours.</p>
-          </div>
-        </div>
-        <div class="cta__content">
-          <form class="cta__form drawer__form" novalidate>
-            <div class="drawer__fields">
-              <div class="field">
-                <input class="field__input" id="cta-email" name="email" type="email" autocomplete="email" placeholder=" " required>
-                <label class="field__label" for="cta-email">E-mail</label>
-              </div>
-              <div class="field">
-                <input class="field__input" id="cta-company" name="company" type="text" autocomplete="organization" placeholder=" ">
-                <label class="field__label" for="cta-company">Company Name</label>
-              </div>
-              <div class="field">
-                <textarea class="field__input field__input--area" id="cta-message" name="message" rows="4" placeholder=" "></textarea>
-                <label class="field__label" for="cta-message">Want to add anything else?</label>
-              </div>
-            </div>
-            <div class="drawer__footer">
-              <label class="consent">
-                <input class="consent__box" type="checkbox" name="consent" required>
-                <span class="consent__text">By checking this box, I acknowledge that I have familiarized with and agree to be bound by the <a>Terms of Service</a> and I accept the <a>Privacy Policy</a></span>
-              </label>
-              <button class="button button--primary drawer__submit" type="submit">Send request</button>
-            </div>
-          </form>
-
-          <div class="cta__done drawer__done" hidden>
-            <h2 class="drawer__title">Thank you</h2>
-            <p class="drawer__lead">We’ll be in touch within 24 hours to set up the meeting.</p>
-            <button class="button button--outline" type="button" data-contact-reset>Send another request</button>
-          </div>
-        </div>
+      <div class="cta__backdrop" aria-hidden="true">
+        <canvas class="cta__art"></canvas>
       </div>
+      <h2 class="cta__title" id="cta-title">
+        <span class="cta__kicker">Ready to scale with AI?</span>
+        Let’s&nbsp;build intelligent systems together.
+      </h2>
+      <button class="button button--primary cta__button" type="button" data-drawer-open="consultation">Chat with us</button>
     </section>
   </main>
 

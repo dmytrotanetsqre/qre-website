@@ -1019,20 +1019,24 @@ html.is-reduced .site-header {
 }
 
 /* --------------------------------------------------------------------------
-   Contact — heading + form over a full-section ASCII rain (cta-rain.js).
-   Slides over the last work case; same dark tokens as the drawer.
+   Contact — one centred statement and the button that opens the chat drawer,
+   over the ASCII art (site.js 6, asciiArt from script.js) fading out towards
+   the section's edges. Slides over the last work case; same dark tokens as
+   the drawer.
    -------------------------------------------------------------------------- */
 .cta {
   position: relative;
   z-index: 4;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 48px;
   min-height: 100svh;
   margin-top: -100svh;
-  padding-block: var(--section-space);
-  padding-inline: var(--gutter);
-  overflow-x: clip;
-  overflow-y: visible;
+  padding: calc(var(--section-space) * 1.25) var(--gutter);
+  overflow: hidden;
+  text-align: center;
   background-color: var(--hero-bg);
   color: var(--paper);
   --surface: var(--hero-bg);
@@ -1041,105 +1045,47 @@ html.is-reduced .site-header {
   --hairline: rgb(255 255 255 / 0.16);
 }
 
-.cta__rain {
+/* The art, faded out at the top and bottom so it never meets the edge. */
+.cta__backdrop {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent);
+  mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent);
+}
+
+.cta__art {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 1.2s var(--ease-out);
 }
 
-.cta__inner {
+.cta.is-ready .cta__art {
+  opacity: 1;
+}
+
+.cta > :not(.cta__backdrop, .hero__source) {
   position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--title-gap);
-  width: 100%;
-  align-items: center;
 }
 
-.cta__stage {
-  position: relative;
-  display: grid;
-  align-items: center;
-  min-height: 45svh;
-  min-width: 0;
-}
-
-.cta__copy {
-  position: relative;
-  z-index: 1;
-  justify-self: start;
-  width: 100%;
-  pointer-events: auto;
-}
-
-.cta__content {
-  min-width: 0;
-  text-align: left;
-}
-
-.cta__kicker {
+/* One white statement: the kicker runs on into the headline, so a narrower
+   box wraps it into two even lines rather than a stack of shrinking rows. */
+.cta .cta__title {
+  max-width: 1000px;
   margin: 0;
-  color: var(--on-surface-muted);
-  font-variation-settings: 'opsz' var(--opsz-display);
-  font-size: clamp(32px, 3.33vw, 48px);
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: var(--tracking-title);
-}
-
-.cta__title {
-  margin-top: 0;
+  font-size: clamp(36px, 4.44vw, 64px);  /* 64 px at 1440 */
+  line-height: 1.1;
   text-wrap: balance;
 }
 
-.cta__copy > .drawer__lead {
-  margin-top: var(--space-xs);
-}
-
-.cta__form.drawer__form {
-  margin-top: 0;
-}
-
-.cta__form.drawer__form .drawer__fields {
-  margin-top: 0;
-}
-
-.cta__done.drawer__done {
-  margin-top: 0;
-  min-height: 0;
-  padding: 0;
-}
-
-@media (min-width: 1024px) {
-  /* Top-align the heading with the usual section start. */
-  .cta {
-    align-items: stretch;
-    padding-top: var(--section-pad-top);
-    padding-bottom: var(--section-space);
-  }
-
-  .cta__inner {
-    grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
-    column-gap: clamp(var(--space-lg), 4vw, 72px);
-    align-items: stretch;
-    flex: 1;
-    min-height: 0;
-  }
-
-  .cta__stage {
-    align-items: start;
-    min-height: 0;
-    height: 100%;
-  }
-
-  .cta__content {
-    align-self: start;
-  }
+.cta__kicker {
+  color: var(--on-surface);
 }
 
 /* --------------------------------------------------------------------------
@@ -1769,27 +1715,6 @@ html.is-reduced .site-header {
   }
 }
 
-@media (max-width: 1023px) {
-  /* Stacked layout: the rain stays with the heading. The form sits on the
-     section colour so the glyphs do not run through the fields. */
-  .cta__content {
-    position: relative;
-    z-index: 1;
-    background-color: var(--hero-bg);
-  }
-
-  .cta__content::before {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: 100%;
-    left: 0;
-    height: var(--title-gap);
-    background: linear-gradient(to bottom, transparent, var(--hero-bg));
-    pointer-events: none;
-  }
-}
-
 @media (max-width: 768px) {
   .hero__content {
     grid-template-columns: 1fr;
@@ -1838,7 +1763,7 @@ html.is-reduced .site-header {
 @media (max-width: 480px) {
   .hero__actions,
   .hero__actions .button,
-  .cta__form .drawer__submit {
+  .cta__button {
     width: 100%;
   }
 

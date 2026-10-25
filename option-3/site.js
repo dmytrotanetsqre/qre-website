@@ -505,7 +505,7 @@ const scrubCases = [];
   still.addEventListener('change', () => aimWork(null, null));
 
   /* ------------------------------------------------------------------------
-     6. Consultation forms (drawer + contact section) and drawer chrome
+     6. Consultation form (drawer) and drawer chrome
      ------------------------------------------------------------------------ */
   function wireConsultationForm(form, done, { emailErrorId = 'consult-email-error' } = {}) {
     const email = form.elements.email;
@@ -587,21 +587,19 @@ const scrubCases = [];
     wireConsultationForm(form, done, { emailErrorId: 'consult-email-error' });
   });
 
+  /* ------------------------------------------------------------------------
+     6b. Contact: links to #contact smooth-scroll to the section, then focus its
+        button without scrolling again. The ASCII art behind the statement is
+        asciiArt (script.js) with the v1 contact settings: hover deform on, no
+        intro, mounted once the section is within a viewport, and idle while it
+        is off-screen. Reduced motion: one still frame (asciiArt holds the video).
+        The source is a placeholder; assets/contact-blob.mp4 replaces it.
+     ------------------------------------------------------------------------ */
   const ctaSection = document.querySelector('.cta');
-  const ctaForm = ctaSection?.querySelector('.cta__form');
-  const ctaDone = ctaSection?.querySelector('.cta__done');
-  if (ctaForm && ctaDone) {
-    wireConsultationForm(ctaForm, ctaDone, { emailErrorId: 'cta-email-error' });
-    ctaDone.querySelector('[data-contact-reset]')?.addEventListener('click', () => {
-      ctaForm.hidden = false;
-      ctaDone.hidden = true;
-      ctaForm.elements.email?.focus();
-    });
-  }
+  const ctaButton = ctaSection?.querySelector('.cta__button');
 
-  function focusCtaEmail() {
-    const email = ctaForm?.elements.email;
-    if (email && typeof email.focus === 'function') email.focus({ preventScroll: true });
+  function focusCtaButton() {
+    if (ctaButton) ctaButton.focus({ preventScroll: true });
   }
 
   document.querySelectorAll('a[href="#contact"]').forEach((link) => {
@@ -610,13 +608,42 @@ const scrubCases = [];
       const section = document.getElementById('contact');
       if (!section) return;
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.addEventListener('scrollend', focusCtaEmail, { once: true });
-      setTimeout(focusCtaEmail, 800);
+      window.addEventListener('scrollend', focusCtaButton, { once: true });
+      setTimeout(focusCtaButton, 800);
     });
   });
 
   if (location.hash === '#contact') {
-    requestAnimationFrame(() => focusCtaEmail());
+    requestAnimationFrame(() => focusCtaButton());
+  }
+
+  const ctaCanvas = ctaSection?.querySelector('.cta__art');
+  if (ctaSection && ctaCanvas && typeof asciiArt === 'function') {
+    let ctaArt = null;
+    let ctaInView = false;
+
+    function mountCtaArt() {
+      if (ctaArt) return;
+      ctaArt = asciiArt(ctaSection, {
+        mediaSource: '../assets/hero-gem.mp4', // placeholder, P3 swaps in ../assets/contact-blob.mp4
+        brightness: 0.62 * 0.6,
+        playIntro: false,
+        mediaScale: 1,
+        focalPoint: { x: 0.5, y: 0.5 },
+        narrow: { query: '(max-width: 768px)', mediaScale: 1.6, focalPoint: { x: 0.5, y: 0.5 } },
+        quiet: true,
+        draw: ctaInView,
+      });
+    }
+
+    // Mount within one viewport of the section; draw only while it is on screen.
+    new IntersectionObserver(([entry]) => {
+      if (entry) mountCtaArt();
+    }, { rootMargin: '100% 0px' }).observe(ctaSection);
+    new IntersectionObserver(([entry]) => {
+      ctaInView = !!(entry && entry.isIntersecting);
+      if (ctaArt) ctaArt.setDrawing(ctaInView);
+    }).observe(ctaSection);
   }
 
   /* ------------------------------------------------------------------------
