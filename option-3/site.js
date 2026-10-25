@@ -593,7 +593,7 @@ const scrubCases = [];
         asciiArt (script.js) with the v1 contact settings: hover deform on, no
         intro, mounted once the section is within a viewport, and idle while it
         is off-screen. Reduced motion: one still frame (asciiArt holds the video).
-        The source is a placeholder; assets/contact-blob.mp4 replaces it.
+        The source is assets/contact-blob.mp4 (replaceable by any looping video).
      ------------------------------------------------------------------------ */
   const ctaSection = document.querySelector('.cta');
   const ctaButton = ctaSection?.querySelector('.cta__button');
@@ -625,12 +625,12 @@ const scrubCases = [];
     function mountCtaArt() {
       if (ctaArt) return;
       ctaArt = asciiArt(ctaSection, {
-        mediaSource: '../assets/hero-gem.mp4', // placeholder, P3 swaps in ../assets/contact-blob.mp4
+        mediaSource: '../assets/contact-blob.mp4',
         brightness: 0.62 * 0.6,
         playIntro: false,
-        mediaScale: 1,
+        mediaScale: 1.4,
         focalPoint: { x: 0.5, y: 0.5 },
-        narrow: { query: '(max-width: 768px)', mediaScale: 1.6, focalPoint: { x: 0.5, y: 0.5 } },
+        narrow: { query: '(max-width: 768px)', mediaScale: 2, focalPoint: { x: 0.5, y: 0.5 } },
         quiet: true,
         draw: ctaInView,
       });
