@@ -1396,7 +1396,7 @@ html.is-reduced .button::before {
   align-self: flex-end;
   max-width: 80%;
   padding: 10px var(--space-sm);
-  border-radius: 20px 20px 6px 20px;
+  border-radius: 20px;
   background-color: var(--hairline);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
