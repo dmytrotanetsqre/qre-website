@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | P0 | Синхронизация CLAUDE.md, журнал | готово |
 | P1 | Contact обратно к макету v1 | готово |
-| P2 | Видео блоба | не начат |
+| P2 | Видео блоба | готово |
 | P3 | Блоб в Contact | не начат |
 | P4 | Чат-drawer | не начат |
 | P5 | QA | не начат |
@@ -29,6 +29,11 @@
 ## Журнал
 
 Новые записи сверху.
+
+### 2026-10-25, P2
+- Сделано видео `assets/contact-blob.mp4`: мягкая сфера-орб (3 слоя 4D simplex-шума, «дыхание» ±4 %, rim, внутреннее свечение слева сверху), серое на чёрном, 640×484, H.264, 30 fps, 240 кадров, ~60 КБ. Луп бесшовный: `renderAt(0)` и `renderAt(8)` дают одинаковые пиксели.
+- Файлы: `option-3/blob.js` (`createBlob`, `renderAt`), `option-3/blob-lab.html` (слайдеры, Copy params, живой вид через `asciiArt`), `tools/render-blob.mjs` (Playwright + ffmpeg, покадрово), `docs/blob.md`, `docs/screens/p2/`, `CLAUDE.md`.
+- В Contact видео пока не подключено (это P3). Вопросы (24 vs 30 fps, размер в кадре, предупреждение ReadPixels в лабе) записаны в `docs/open-questions.md`.
 
 ### 2026-10-25, P1
 - Contact в Option 3 возвращён к макету v1: по центру заголовок (kicker + "Let’s build intelligent systems together.") и кнопка "Chat with us" (открывает прежний drawer) поверх ASCII-арта; форма на странице убрана.
