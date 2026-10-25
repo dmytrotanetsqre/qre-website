@@ -5,7 +5,7 @@ Method: `python3 -m http.server 4180` at the repo root, Playwright Chromium (hea
 
 Screenshots (`docs/screens/p5/`): `contact-1440.png`, `contact-1024.png`, `contact-390.png`, `contact-reduced.png`, `chat-summary-1440.png`, `chat-390.png`.
 
-**Totals: 48 PASS, 1 FAIL (#16), 5 NOT CHECKED (#26, #27, #52, #53, #54).**
+**Totals: 49 PASS, 0 FAIL, 5 NOT CHECKED (#26, #27, #52, #53, #54).** (#16 FAIL at b807bbe, PASS after P5-fix 88c4120; see the re-check note.)
 
 ## Repository and process
 
@@ -31,14 +31,14 @@ Screenshots (`docs/screens/p5/`): `contact-1440.png`, `contact-1024.png`, `conta
 | 13 | Reduced motion resets the overlap | PASS | `margin-top: 0`, last case `position: relative`, as the plan says to keep. |
 | 14 | Art = `asciiArt` with v1 settings and the blob | PASS | Source `../assets/contact-blob.mp4`, playing, `loop` on; brightness 0.62 × 0.6, `playIntro: false`, `mediaScale` 1.4 / `narrow.mediaScale` 2; hover deform and `restDim` left at CONFIG defaults (true / 0.45, same as v1) by code read; hover itself not exercised in the browser. |
 | 15 | Art and blob pause off-screen (all 4 runs) | PASS | In view: about 1600 to 1900 draw calls a second; at the page top: 0 draw calls in 1.5 s and the blob video `paused: true`. |
-| 16 | Art mounts lazily, within one viewport of the section | **FAIL** | `contact-blob.mp4` is requested about 140 ms after load while `#contact` is about 10 300 px below the viewport. Steps below. |
+| 16 | Art mounts lazily, within one viewport of the section | PASS | Re-checked at 88c4120 (was FAIL at b807bbe, ~140 ms request at load). Now no `contact-blob.mp4` request at load or with `#contact` 2.3 viewports below; one request once it is 1.7 viewports below. See "Re-check after P5-fix". |
 | 17 | Reduced motion: one still frame | PASS | Video never played; canvas drawn once (64 `fillText` calls, about 455 000 non-transparent pixels); see `contact-reduced.png`. |
 | 18 | Nav "Contact" and hero "Book a consultation" (A-02) | PASS | Smooth-scroll to `#contact` (top within 1 px), focus lands on the Contact button, chat stays closed. At 390 only the hero button was tested (see #52). |
 | 19 | Console on a full scroll (4 runs) | PASS | No errors or warnings. |
 | 20 | Failed requests on a full scroll (4 runs) | PASS | None (36 to 41 requests per run). |
 | 21 | Contact button opens the chat | PASS | Opens `dialog#consultation`. |
 
-### FAIL #16: Contact art is not lazy
+### FAIL #16: Contact art is not lazy (fixed in 88c4120, see re-check below)
 
 Steps:
 1. Serve the repo root (`python3 -m http.server 4180`), open `http://localhost:4180/option-3/` at 1440×900 with DevTools Network filtered to `contact-blob`.
@@ -96,3 +96,23 @@ Screenshot: none (nothing visible; it is a network-timing fault).
 | 54 | Screen reader announcements | NOT CHECKED | Only DOM / ARIA checked (#30). |
 
 (NOT CHECKED total: #26, #27, #52, #53, #54.)
+
+## Re-check after P5-fix
+
+Date: 2026-10-25, at 88c4120 (`option-3/site.js` 6b: the mount observer now requires `entry.isIntersecting` and disconnects after mounting). Same method (Playwright Chromium, `python3 -m http.server 4180`, intro skipped with a key press) at 1440×900, 390×844 and 1440×900 reduced motion. Only #16 re-checked, plus a chat-open sanity check.
+
+| Check | 1440 | 390 | 1440 reduced |
+| --- | --- | --- | --- |
+| `contact-blob.mp4` requests at load (`#contact` top ≈ 10 340 / 10 220 px) | 0 | 0 | 0 |
+| Section top 2.3 viewports below (2070 / 1941 px) | 0 | 0 | 0 |
+| Section top 1.7 viewports below (1530 / 1435 px) | 1 | 1 | 1 |
+| Draw calls in 1 s, mounted but off-screen | 0 | 0 | 0 |
+| Draw calls in 1.5 s, section in view | 2816 | 2700 | 0 (one still frame, visible) |
+| Draw calls in 1.5 s back at page top; blob video paused | 0; yes | 0; yes | 0; yes |
+| Hero "Book a consultation": lands at `#contact` (top 0), art requested and drawing, focus on Contact button | yes (896 draws) | yes (2700) | yes (still frame) |
+| Nav "Contact" (desktop): same | yes (2880 draws) | not tested (menu) | yes (still frame) |
+| Contact button opens `dialog#consultation` | yes | yes | yes |
+| Console errors / warnings, failed requests | none | none | none |
+
+Total requests for the blob per run: exactly 1. Result: #16 PASS.
+
