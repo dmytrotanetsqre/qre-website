@@ -580,12 +580,12 @@ const scrubCases = [];
     function mountCtaArt() {
       if (ctaArt) return;
       ctaArt = asciiArt(ctaSection, {
-        mediaSource: '../assets/contact-blob.mp4',
+        mediaSource: '../assets/contact-blob-mj.mp4',
         brightness: 0.62 * 0.6,
         playIntro: false,
-        mediaScale: 1.4,
+        mediaScale: 0.7,
         focalPoint: { x: 0.5, y: 0.5 },
-        narrow: { query: '(max-width: 768px)', mediaScale: 2, focalPoint: { x: 0.5, y: 0.5 } },
+        narrow: { query: '(max-width: 768px)', mediaScale: 1, focalPoint: { x: 0.5, y: 0.5 } },
         quiet: true,
         draw: ctaInView,
       });

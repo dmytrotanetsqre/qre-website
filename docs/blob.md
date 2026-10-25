@@ -1,6 +1,8 @@
 # Contact blob video
 
-`assets/contact-blob.mp4` is the looping orb that Option 3's Contact section draws as ASCII art (through `asciiArt()` in `option-3/script.js`). It is rendered from `option-3/blob.js`.
+> **2026-10-25:** Contact now uses `assets/contact-blob-mj.mp4` (Dima's Midjourney orb: 640 × 484, 24 fps, seamless loop of about 5 s, black background, the orb about 87 % of the frame height), mounted in `option-3/site.js` 6b with `mediaScale` 0.7 and `narrow.mediaScale` 1. The procedural blob below (`assets/contact-blob.mp4`, `blob.js`, `blob-lab.html`, `tools/render-blob.mjs`) is kept as a fallback: to go back, set `mediaSource` to `'../assets/contact-blob.mp4'` and the scales to 1.4 / 2.
+
+`assets/contact-blob.mp4` is the procedural looping orb that Option 3's Contact section drew as ASCII art (through `asciiArt()` in `option-3/script.js`) until 2026-10-25. It is rendered from `option-3/blob.js`.
 
 ## Files
 
@@ -36,7 +38,7 @@ Result: 640 × 484, 240 frames, about 60 KB. Background pure black (0), highligh
 
 Nothing on the site depends on what the video shows, so it can be swapped for any clip that follows these rules:
 
-- Same path and name: `assets/contact-blob.mp4`.
+- Put it in `assets/` and point `mediaSource` in `option-3/site.js` 6b at it (now `contact-blob-mj.mp4`); retune `mediaScale` / `narrow.mediaScale` if the orb fills a different share of the frame.
 - 640 × 484, or at least the same aspect ratio (about 4:3). The object centred, filling about 60 to 70 % of the height.
 - Pure black background. Black turns into the page background in the ASCII art; any grey haze shows up as stray digits.
 - Brightness from near black to near white on the object. Colour is ignored: the ASCII renderer works in grey.
