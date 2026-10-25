@@ -288,6 +288,15 @@ const scrubCases = [];
       if (art) art.setDrawing(inView);
     }
 
+    // Hover as on Contact (deform + restDim). restDim dims the rest state to 55 %, so the
+    // brightness is raised by 1 / 0.55 to keep the crystal as bright at rest as before.
+    // Touch and reduced motion: no hover, exactly as it was.
+    const crystalHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      && !document.documentElement.classList.contains('is-reduced')
+      ? { hoverDeform: true, restDim: 0.45, brightness: 0.62 / 0.55 }
+      : { hoverDeform: false, restDim: 0 };
+
     function mountArt(index) {
       if (!crystalHost) return;
       let canvas = crystalHost.querySelector('canvas');
@@ -304,8 +313,7 @@ const scrubCases = [];
         mediaElement: video,
         mediaSource: video.dataset.src,
         playIntro: false,
-        hoverDeform: false,
-        restDim: 0,
+        ...crystalHover,
         mediaScale: 1.35,
         focalPoint: { x: 0.5, y: 0.5 },
         narrow: null,

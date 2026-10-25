@@ -482,6 +482,19 @@ html.is-reduced .site-header {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
+/* The AI sparkles, before the label of the buttons that open the chat.
+   18 px, so each 2 px square of the icon is one CSS px pair, like the arrow;
+   a mask in currentColor, so it follows the button's tone and hover. */
+.button__icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  background-color: currentColor;
+  -webkit-mask: url('../assets/icons/sparkles.svg') no-repeat center / 18px 18px;
+          mask: url('../assets/icons/sparkles.svg') no-repeat center / 18px 18px;
+}
+
 .button--primary {
   background-color: var(--paper);
   color: var(--ink);
@@ -734,6 +747,8 @@ html.is-reduced .site-header {
 
 .services__crystal {
   position: relative;
+  /* The stage is click-through; only the crystal takes the pointer, for the hover. */
+  pointer-events: auto;
   width: min(100%, calc(100svh - var(--header-h) - 48px), 760px);
   aspect-ratio: 1;
 }

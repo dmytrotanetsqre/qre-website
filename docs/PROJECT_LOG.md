@@ -76,3 +76,8 @@
 
 ### 2026-10-25, P5-fix QA re-check
 - Повторная проверка QA #16 на 88c4120 (1440, 390, reduced motion): contact-blob.mp4 не грузится при загрузке, грузится один раз в пределах экрана от #contact, арт рисуется на экране и замирает вне его, ссылки #contact и чат работают, ошибок нет — PASS.
+
+### 2026-10-25, minifix (Option 3)
+- Иконка sparkles (`assets/icons/sparkles.svg`, 18×18, как дана) перед подписью на кнопках, открывающих чат («Get in touch» в шапке, «Chat with us» в Contact): `span.button__icon` с маской в `currentColor`, зазор 8 px; высота кнопок не менялась (шапка 40/44 px, на 390 — 44 px, помещается).
+- Hover на кристаллах Services как у Contact-блоба: `hoverDeform` + `restDim` 0.45, `brightness` 0.62/0.55, чтобы в покое яркость осталась прежней (средняя яркость до/после 28.45/28.11). `pointer-events: auto` только у `.services__crystal`, остальная сцена прозрачна для кликов. Тач и reduced motion: без hover, как раньше.
+- Проверено Playwright (1440 и 390): ошибок в консоли нет; скриншоты в `docs/screens/minifix/`.
