@@ -592,9 +592,12 @@ const scrubCases = [];
     }
 
     // Mount within one viewport of the section; draw only while it is on screen.
-    new IntersectionObserver(([entry]) => {
-      if (entry) mountCtaArt();
-    }, { rootMargin: '100% 0px' }).observe(ctaSection);
+    const ctaMountObserver = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      mountCtaArt();
+      ctaMountObserver.disconnect();
+    }, { rootMargin: '100% 0px' });
+    ctaMountObserver.observe(ctaSection);
     new IntersectionObserver(([entry]) => {
       ctaInView = !!(entry && entry.isIntersecting);
       if (ctaArt) ctaArt.setDrawing(ctaInView);
