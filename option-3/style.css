@@ -55,6 +55,7 @@
   --paper: #FFFFFF;
   --line: rgb(26 26 26 / 0.16);
   --line-inverse: rgb(255 255 255 / 0.08);
+  --header-line: rgb(255 255 255 / 0.16);
 
   --surface: var(--paper);
   --on-surface: var(--ink);
@@ -187,15 +188,25 @@ figure {
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: var(--header-h);
-  padding-inline: var(--gutter);
-  border-bottom: 1px solid transparent;
+  padding-inline: 24px;
   background-color: transparent;
   color: var(--paper);
   opacity: var(--copy);
   pointer-events: none;
-  transition: background-color 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+  transition: background-color 0.3s var(--ease-out);
+}
+
+/* The bottom line, full width, over the hero too. */
+.site-header::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background-color: var(--header-line);
+  pointer-events: none;
 }
 
 /* Clickable once the intro has brought the bar in. Reduced motion is on from the first paint. */
@@ -209,7 +220,6 @@ html.is-reduced .site-header {
 }
 
 .site-header.is-solid {
-  border-bottom-color: var(--line-inverse);
   background-color: var(--hero-bg);
 }
 
@@ -226,26 +236,41 @@ html.is-reduced .site-header {
 
 .site-header__logo {
   flex-shrink: 0;
+  margin-right: 32px;
 }
 
+/* Nav on the left after the logo, CTA cell at the right end. Cells are 63 px
+   (the 1 px bar line stays visible under them); the CTA is the full 64. */
 .site-header__tools {
   display: flex;
-  align-items: center;
-  gap: 28px;
+  flex: 1;
+  align-items: stretch;
+  align-self: stretch;
   min-width: 0;
 }
 
 .site-nav__list {
   display: flex;
-  align-items: center;
-  gap: 28px;
+  align-items: stretch;
+  height: calc(100% - 1px);
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 1px;
+  border-left: 1px solid var(--header-line);
+  box-sizing: content-box;
   list-style: none;
+}
+
+.site-nav {
+  height: 100%;
+}
+
+.site-nav__list li {
+  display: flex;
 }
 
 .site-nav__link,
 .site-header__toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -256,27 +281,46 @@ html.is-reduced .site-header {
   line-height: 20px;
   letter-spacing: var(--tracking-body);
   text-decoration: none;
-  transition: opacity 0.2s var(--ease-out);
-}
-
-@media (hover: hover) {
-  .site-nav__link:hover {
-    opacity: 0.72;
-  }
 }
 
 .site-nav__link {
+  padding-inline: 32px;
+  border-right: 1px solid var(--header-line);
   cursor: pointer;
+}
+
+/* Hover: a line in the text colour drawn along the cell's bottom edge. */
+.site-nav__link::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-in-out);
+}
+
+@media (hover: hover) {
+  .site-nav__link:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.site-nav__link:focus-visible::after {
+  transform: scaleX(1);
 }
 
 .site-header__toggle {
   display: none;
-  padding: 8px 0;
+  padding: 0 16px;
   border: 0;
+  border-left: 1px solid var(--header-line);
   background: none;
   cursor: pointer;
 }
-
 
 /* --------------------------------------------------------------------------
    Hero — a 100svh frame. The intro (site.js CONFIG.mask) zooms the logo
@@ -513,13 +557,30 @@ html.is-reduced .site-header {
   }
 }
 
-/* The header bar is 64 px. The shared pill is 56 px, which fills it;
-   this one sits in the bar instead. */
+/* The header CTA is a full-height white cell at the bar's right end: 64 px,
+   flush with the bar line, square corners. */
 .button.site-header__cta {
-  height: 40px;
-  padding-inline: 16px;
+  height: var(--header-h);
+  margin-left: auto;
+  padding-inline: 32px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--paper);
+  color: var(--ink);
   font-size: 14px;
   line-height: 20px;
+}
+
+@media (hover: hover) {
+  .button.site-header__cta:hover {
+    background-color: rgb(255 255 255 / 0.88);
+  }
+}
+
+.button.site-header__cta:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: -6px;
+  box-shadow: inset 0 0 0 4px var(--ink);
 }
 
 :root.tone-ready .button {
@@ -1700,34 +1761,22 @@ html.is-reduced .site-header {
    Responsive
    -------------------------------------------------------------------------- */
 
-@media (max-width: 1279px) {
-  .button.site-header__cta {
-    height: 44px;
-  }
-
-  .site-nav__link {
-    min-height: 44px;
-  }
-}
-
 @media (max-width: 960px) {
   .site-header__tools {
-    gap: var(--space-sm);
+    justify-content: flex-end;
   }
 
   .button.site-header__cta {
-    height: 44px;
-    padding-inline: var(--space-sm);
-    font-size: 14px;
+    margin-left: 0;
+    padding-inline: 20px;
   }
 
   .site-header__toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0;
+    height: var(--header-h);
+    padding-bottom: 1px;
   }
 
   .site-nav {
@@ -1736,13 +1785,13 @@ html.is-reduced .site-header {
     left: 0;
     right: 0;
     display: none;
-    padding: 8px var(--gutter) 24px;
+    height: auto;
+    padding: 8px 24px 24px;
     border-bottom: 1px solid var(--line-inverse);
     background-color: var(--hero-bg);
   }
 
   .site-header.is-open {
-    border-bottom-color: var(--line-inverse);
     background-color: var(--hero-bg);
     transition-duration: 0s;
   }
@@ -1754,12 +1803,21 @@ html.is-reduced .site-header {
   .site-nav__list {
     flex-direction: column;
     align-items: stretch;
+    height: auto;
+    padding: 0;
+    border-left: 0;
     width: auto;
   }
 
   .site-nav__link {
     width: 100%;
-    padding-block: 12px;
+    min-height: 44px;
+    padding: 12px 0;
+    border-right: 0;
+  }
+
+  .site-nav__link::after {
+    display: none;
   }
 }
 
