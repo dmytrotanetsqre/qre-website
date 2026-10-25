@@ -1309,8 +1309,9 @@ html.is-reduced .button::before {
   place-items: center;
   width: 40px;
   height: 40px;
-  border: 1px solid var(--hairline);
   border-radius: 50%;
+  /* Diagonal gradient, no border (2026-10-26): coral top left, aqua bottom right. */
+  background: linear-gradient(135deg, #F24B59 0%, #4BF2E2 100%);
 }
 
 .chat__avatar-icon {
