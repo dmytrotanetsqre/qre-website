@@ -997,4 +997,41 @@ const scrubCases = [];
   window.addEventListener('scroll', queueCovers, { passive: true });
   window.addEventListener('resize', queueCovers);
   writeCovers();
+
+  /* ----------------------------------------------------------------------
+     9. Hero service backgrounds. Hovering a name in .hero__services shows
+        the video with the same data-service over the film; leaving it
+        hides it again. Names without a video change nothing.
+     ---------------------------------------------------------------------- */
+  const serviceVideos = new Map();
+  document.querySelectorAll('.hero__service-video').forEach((v) => {
+    serviceVideos.set(v.dataset.service, v);
+  });
+  let shownVideo = null;
+
+  function showServiceVideo(video) {
+    if (shownVideo === video) return;
+    if (shownVideo) {
+      const old = shownVideo;
+      old.classList.remove('is-showing');
+      // Pause once the 0.4 s fade is over (no transitionend for reduced motion).
+      setTimeout(() => {
+        if (!old.classList.contains('is-showing')) old.pause();
+      }, 450);
+    }
+    shownVideo = video;
+    if (video) {
+      const p = video.play();
+      if (p && p.catch) p.catch(() => {});
+      video.classList.add('is-showing');
+    }
+  }
+
+  document.querySelectorAll('.hero__service').forEach((link) => {
+    const video = serviceVideos.get(link.dataset.service) || null;
+    link.addEventListener('pointerenter', (e) => {
+      if (e.pointerType === 'mouse') showServiceVideo(video);
+    });
+    link.addEventListener('pointerleave', () => showServiceVideo(null));
+  });
 })();

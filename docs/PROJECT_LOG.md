@@ -30,6 +30,12 @@
 
 Новые записи сверху.
 
+### 2026-11-23, Hero: service names and the AI Agent background video
+- `option-3/index.html`, `style.css`, `site.js` (section 9): a row of the six service names under the hero copy (`nav.hero__services`, cells and hover line as in the header; 3 per row at ≤1100, hidden at ≤768). Hovering AI Agent fades `assets/hero-services/ai-agents.mp4` in over the eye film (0.4 s), leaving fades it out and pauses it. The other five names have no video yet.
+- `assets/hero-services/ai-agents.mp4`: 1080×1080, 24 fps, 14.25 s, about 2.2 MB, no audio. Made from Dima's Kling clip (woman takes the phone out of the bag, camera pushes in): first 0.75 s trimmed, then a Kling 4.0 start/end-frame clip (last frame → first frame: she puts the phone back, camera pulls out) joined after it, so the loop is seamless (seam frames differ about as much as neighbouring frames).
+- Checked in Playwright at 1440, 1024 and 390: video shows on hover and pauses after leaving, no console errors.
+- Open: the header nav is hard to read over the bright corridor while the video shows; transitions between service videos are the next step.
+
 ### 2026-10-26, Чат: градиент на аватаре
 - У аватарки ассистента убрана рамка. Заливка теперь диагональный градиент: #F24B59 сверху слева, #4BF2E2 снизу справа (`linear-gradient(135deg, …)`). Иконка звёздочек осталась белой.
 
