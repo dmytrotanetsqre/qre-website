@@ -86,6 +86,9 @@
               </clipPath>
             </defs>
           </svg>
+          <!-- Service backgrounds: shown over the film while a service in
+               .hero__services is hovered (site.js 9). One per data-service. -->
+          <video class="hero__service-video" data-service="ai-agents" src="../assets/hero-services/ai-agents.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
         </div>
 
         <div class="hero__content">
@@ -101,6 +104,15 @@
               <a class="button button--outline" href="#work">View case studies</a>
             </div>
           </div>
+
+          <nav class="hero__services" aria-label="Services">
+            <a class="hero__service" href="#ai-agents" data-service="ai-agents">AI Agent</a>
+            <a class="hero__service" href="#custom-ai-models" data-service="custom-ai-models">Custom AI Models</a>
+            <a class="hero__service" href="#mobile-desktop-apps" data-service="mobile-desktop-apps">Mobile &amp; Desktop Apps</a>
+            <a class="hero__service" href="#websites" data-service="websites">Websites</a>
+            <a class="hero__service" href="#business-automation" data-service="business-automation">Business Automation</a>
+            <a class="hero__service" href="#analytics" data-service="analytics">Analytics</a>
+          </nav>
         </div>
         </div>
       </div>
